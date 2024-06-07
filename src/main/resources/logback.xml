@@ -1,0 +1,22 @@
+
+<!--
+ ! Logging can be configured at runtime with the GLOBAL_LOG_LEVEL, and the APPLICATION_LOG_LEVEL
+ ! environment variables.
+ !-->
+<configuration>
+  <property
+    name="pattern"
+    value="%gray(%d{HH:mm:ss.SSS}) %highlight(%-5p) %magenta([%-15.15t]) %cyan(%-30c{30}) | %m%n"/>
+
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <Pattern>${pattern}</Pattern>
+    </encoder>
+  </appender>
+
+  <root level="${GLOBAL_LOG_LEVEL:-info}">
+    <appender-ref ref="${GLOBAL_LOG_APPENDER:-console}" />
+  </root>
+
+  <logger name="com.github.jaguililla.appointments" level="${APPLICATION_LOG_LEVEL:-trace}" />
+</configuration>

@@ -1,0 +1,70 @@
+openapi: 3.1.0
+
+info:
+  title: OpenAPI definition
+  version: v1
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+
+  /appointments:
+    post:
+      operationId: createAppointment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yml#/components/schemas/AppointmentRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yml#/components/schemas/AppointmentResponse'
+    get:
+      operationId: readAppointments
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'schemas.yml#/components/schemas/AppointmentResponse'
+
+  /appointments/{id}:
+    get:
+      operationId: readAppointment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yml#/components/schemas/AppointmentResponse'
+    delete:
+      operationId: deleteAppointment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yml#/components/schemas/IdResponse'

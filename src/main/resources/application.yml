@@ -1,0 +1,21 @@
+
+# Application Settings
+createMessage: ${CREATE_MESSAGE:Appointment created at %s}
+deleteMessage: ${DELETE_MESSAGE:Appointment deleted at %s}
+notifierTopic: ${NOTIFIER_TOPIC:appointments}
+
+# String Boot Settings
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+
+management.endpoints.jmx.exposure.exclude: "*"
+
+spring:
+  datasource:
+    url: ${JDBC_URL:jdbc:postgresql://localhost:15432/local}
+    username: ${JDBC_USERNAME:root}
+    password: ${JDBC_PASSWORD:root}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}

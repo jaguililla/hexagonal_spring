@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation=
+    "http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.github.jaguililla</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.1.0</version>
+    <relativePath>.mvn/parent.xml</relativePath>
+  </parent>
+
+  <artifactId>appointments</artifactId>
+  <version>0.1.0</version>
+
+  <name>Appointments</name>
+  <description>Application to create appointments (REST API)</description>
+
+  <properties>
+    <openApiNullable>false</openApiNullable>
+    <openapi.package>${project.groupId}.${project.artifactId}.http</openapi.package>
+    <controllers.package>${openapi.package}.controllers</controllers.package>
+    <client.package>${openapi.package}.client</client.package>
+    <spring.server>undertow</spring.server>
+    <openapi.integration>ui</openapi.integration>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-database-postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.kafka</groupId>
+      <artifactId>spring-kafka</artifactId>
+    </dependency>
+  </dependencies>
+</project>

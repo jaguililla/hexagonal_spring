@@ -1,0 +1,64 @@
+
+components:
+  schemas:
+
+    IdResponse:
+      type: object
+      title: IdResponse
+      required: [ id ]
+      properties:
+        id:
+          type: string
+          format: uuid
+
+    AppointmentRequest:
+      type: object
+      title: AppointmentRequest
+      required: [ startTimestamp, endTimestamp ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        users:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: uuid
+        startTimestamp:
+          type: string
+          format: date-time
+        endTimestamp:
+          type: string
+          format: date-time
+
+    AppointmentResponse:
+      type: object
+      title: AppointmentResponse
+      required: [ id, startTimestamp, endTimestamp ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        users:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/UserResponse'
+        startTimestamp:
+          type: string
+          format: date-time
+        endTimestamp:
+          type: string
+          format: date-time
+
+    UserResponse:
+      type: object
+      title: UserResponse
+      required: [ id ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string

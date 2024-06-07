@@ -1,0 +1,56 @@
+
+name: appointments
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: local
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./src/test/resources/db:/docker-entrypoint-initdb.d
+    ports:
+      - "15432:5432"
+
+  kafka:
+    image: apache/kafka:3.7.0
+    environment:
+      CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_HOST://localhost:9092,PLAINTEXT://kafka:19092
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      KAFKA_LISTENERS: CONTROLLER://:29093,PLAINTEXT_HOST://:9092,PLAINTEXT://:19092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+    ports:
+      - "9092:9092"
+
+  appointments:
+    profiles: [ local ]
+    depends_on:
+      - postgres
+      - kafka
+    image: com.github.jaguililla/appointments
+    environment:
+      GLOBAL_LOG_LEVEL: warn
+      APPLICATION_LOG_LEVEL: info
+      JDBC_URL: jdbc:postgresql://postgres/local
+      JDBC_USERNAME: root
+      JDBC_PASSWORD: root
+      KAFKA_SERVER: kafka:19092
+    ports:
+      - "18080:8080"
+
+volumes:
+  data:
+    driver: local
