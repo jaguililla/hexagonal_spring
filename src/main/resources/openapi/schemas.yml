@@ -52,6 +52,17 @@ components:
           type: string
           format: date-time
 
+    UserRequest:
+      type: object
+      title: UserRequest
+      required: [ name ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+
     UserResponse:
       type: object
       title: UserResponse

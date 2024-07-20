@@ -9,6 +9,23 @@ servers:
 
 paths:
 
+  /users:
+    post:
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yml#/components/schemas/UserRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yml#/components/schemas/UserResponse'
+
   /appointments:
     post:
       operationId: createAppointment

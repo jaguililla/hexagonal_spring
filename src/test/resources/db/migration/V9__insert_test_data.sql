@@ -1,4 +1,11 @@
 
+insert into Users(id, name)
+values
+  (gen_random_uuid(), 'Pete'),
+  (gen_random_uuid(), 'Jill'),
+  (gen_random_uuid(), 'Bob'),
+  (gen_random_uuid(), 'Kate');
+
 insert into Appointments(id, startTimestamp, endTimestamp)
 values
   (gen_random_uuid(), '2020-06-14 00:00:00', '2020-12-31 23:59:59'),
