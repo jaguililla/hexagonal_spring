@@ -2,11 +2,11 @@ package com.github.jaguililla.appointments.input.controllers;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+import com.github.jaguililla.appointments.domain.AppointmentsService;
 import com.github.jaguililla.appointments.http.controllers.AppointmentsApi;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentRequest;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentResponse;
 import com.github.jaguililla.appointments.http.controllers.messages.IdResponse;
-import com.github.jaguililla.appointments.domain.AppointmentsService;
 
 import java.util.List;
 import java.util.UUID;

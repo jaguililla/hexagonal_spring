@@ -1,8 +1,8 @@
 package com.github.jaguililla.appointments;
 
 import com.github.jaguililla.appointments.output.notifiers.KafkaTemplateAppointmentsNotifier;
-import com.github.jaguililla.appointments.output.stores.JdbcTemplateAppointmentsRepository;
-import com.github.jaguililla.appointments.output.stores.JdbcTemplateUsersRepository;
+import com.github.jaguililla.appointments.output.repositories.JdbcTemplateAppointmentsRepository;
+import com.github.jaguililla.appointments.output.repositories.JdbcTemplateUsersRepository;
 import com.github.jaguililla.appointments.domain.*;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -97,7 +97,7 @@ class ApplicationConfiguration {
     }
 
     @Bean
-    AppointmentsService service(
+    AppointmentsService appointmentsService(
         final AppointmentsRepository appointmentsRepository,
         final UsersRepository usersRepository,
         final AppointmentsNotifier appointmentsNotifier

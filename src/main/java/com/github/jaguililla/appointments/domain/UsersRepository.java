@@ -6,4 +6,5 @@ import java.util.UUID;
 
 public interface UsersRepository {
     Set<User> get(final Set<UUID> id);
+    boolean insert(final User user);
 }

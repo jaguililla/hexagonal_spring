@@ -1,5 +1,6 @@
-package com.github.jaguililla.appointments.output.stores;
+package com.github.jaguililla.appointments.output.repositories;
 
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.github.jaguililla.appointments.domain.AppointmentsRepository;
@@ -40,9 +41,9 @@ public class JdbcTemplateAppointmentsRepository implements AppointmentsRepositor
 
     @Override
     public boolean insert(final Appointment appointment) {
+        requireNonNull(appointment, "appointment cannot be null");
         LOGGER.debug("--> Creating appointment: {}", appointment);
 
-        // TODO Checks
         // TODO Transaction
         final var parameters = Map.of(
             "id", appointment.id(),
@@ -66,9 +67,9 @@ public class JdbcTemplateAppointmentsRepository implements AppointmentsRepositor
 
     @Override
     public boolean delete(final UUID id) {
+        requireNonNull(id, "id cannot be null");
         LOGGER.debug("--> Deleting aid: {}", id);
 
-        // TODO Checks
         // TODO Transaction
         final var parameters = Map.of("id", id);
         final var usersCount =
@@ -80,6 +81,7 @@ public class JdbcTemplateAppointmentsRepository implements AppointmentsRepositor
 
     @Override
     public Appointment get(final UUID id) {
+        requireNonNull(id, "id cannot be null");
         LOGGER.debug("--> Reading aid: {}", id);
 
         final var appointments = template.query(
@@ -128,6 +130,7 @@ public class JdbcTemplateAppointmentsRepository implements AppointmentsRepositor
     }
 
     private List<Appointment> groupAppointments(final List<Appointment> appointments) {
+        requireNonNull(appointments, "appointments cannot be null");
         return appointments
             .stream()
             .collect(groupingBy(Appointment::id))

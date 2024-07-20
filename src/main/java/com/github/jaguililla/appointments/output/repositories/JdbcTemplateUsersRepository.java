@@ -1,4 +1,4 @@
-package com.github.jaguililla.appointments.output.stores;
+package com.github.jaguililla.appointments.output.repositories;
 
 import com.github.jaguililla.appointments.domain.UsersRepository;
 import com.github.jaguililla.appointments.domain.model.User;
@@ -9,6 +9,9 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import static java.util.Collections.emptySet;
+import static java.util.Objects.requireNonNull;
 
 public final class JdbcTemplateUsersRepository implements UsersRepository {
 
@@ -29,19 +32,32 @@ public final class JdbcTemplateUsersRepository implements UsersRepository {
     }
 
     @Override
-    public Set<User> get(final Set<UUID> id) {
-        LOGGER.debug("--> Reading uid: {}", id);
+    public Set<User> get(final Set<UUID> ids) {
+        requireNonNull(ids, "ids must not be null");
+        LOGGER.debug("--> Reading uid: {}", ids);
 
-        final var users = id.isEmpty()
-            ? Collections.<User>emptyList()
-            : template.query(
-                "select * from Users where id in (:id)",
-                Map.of("id", id),
-                JdbcTemplateUsersRepository::userDataMapper
-            );
+        if (ids.isEmpty())
+            return emptySet();
+
+        final var users = template.query(
+            "select * from Users where id in (:id)",
+            Map.of("id", ids),
+            JdbcTemplateUsersRepository::userDataMapper
+        );
 
         LOGGER.debug("=== Result: {}", users);
 
         return new HashSet<>(users);
+    }
+
+    @Override
+    public boolean insert(final User user) {
+        requireNonNull(user, "user must not be null");
+        LOGGER.debug("--> Creating user: {}", user);
+
+        final var parameters = Map.of("id", user.id(), "name", user.name());
+        final var count = template.update("insert into Users values (:id, :name)", parameters);
+
+        return count == 1;
     }
 }

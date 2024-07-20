@@ -58,7 +58,7 @@ Application to create appointments (REST API). Appointments are stored in a rela
 * `domain` holds business logic (services and/or use cases) and driven ports (interfaces).
 * `domain.model` keeps the structures relevant to the application's domain. The more logic added to
   an entity, the better (it could be easily accessed by many different services, or use cases).
-* `output.{notifiers,stores}` driven adapters (implementations of driven ports).
+* `output.{notifiers,repositories}` driven adapters (implementations of driven ports).
 * `input.controllers` driver adapter (adapters without interface).
 * There are no 'input/driver ports', as they don't need to be decoupled of anything they just use
   the domain (and that's acceptable).
@@ -66,7 +66,7 @@ Application to create appointments (REST API). Appointments are stored in a rela
 * Code structure and access rules:
   - **appointments**: holds the Spring configuration (dependency injection) and contains the
     starting class for the application.
-  - **appointments.output.{notifiers,stores}**: contains domain ports' actual implementations.
+  - **appointments.output.{notifiers,repositories}**: contains domain ports' actual implementations.
     These are implementation details and must not be used directly (except DI and tests).
   - **appointments.input.controllers**: contains the REST controllers of the application (driver
     adapter). Classes on this package cannot use any other application layer apart from domain.
