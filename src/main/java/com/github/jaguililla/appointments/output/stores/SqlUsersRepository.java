@@ -1,4 +1,4 @@
-package com.github.jaguililla.appointments.adapters;
+package com.github.jaguililla.appointments.output.stores;
 
 import com.github.jaguililla.appointments.domain.UsersRepository;
 import com.github.jaguililla.appointments.domain.model.User;

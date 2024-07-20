@@ -1,4 +1,4 @@
-package com.github.jaguililla.appointments.controllers;
+package com.github.jaguililla.appointments.input.controllers;
 
 import static java.util.stream.Collectors.toSet;
 

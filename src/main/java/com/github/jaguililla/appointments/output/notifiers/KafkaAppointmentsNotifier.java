@@ -1,4 +1,4 @@
-package com.github.jaguililla.appointments.adapters;
+package com.github.jaguililla.appointments.output.notifiers;
 
 import com.github.jaguililla.appointments.domain.AppointmentsNotifier;
 import com.github.jaguililla.appointments.domain.Event;

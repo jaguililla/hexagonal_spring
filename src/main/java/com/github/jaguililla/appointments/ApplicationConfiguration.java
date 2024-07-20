@@ -1,8 +1,8 @@
 package com.github.jaguililla.appointments;
 
-import com.github.jaguililla.appointments.adapters.KafkaAppointmentsNotifier;
-import com.github.jaguililla.appointments.adapters.SqlAppointmentsRepository;
-import com.github.jaguililla.appointments.adapters.SqlUsersRepository;
+import com.github.jaguililla.appointments.output.notifiers.KafkaAppointmentsNotifier;
+import com.github.jaguililla.appointments.output.stores.SqlAppointmentsRepository;
+import com.github.jaguililla.appointments.output.stores.SqlUsersRepository;
 import com.github.jaguililla.appointments.domain.*;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;

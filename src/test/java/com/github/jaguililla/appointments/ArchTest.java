@@ -11,8 +11,9 @@ public class ArchTest {
     private static final String APPLICATION_PACKAGE = ArchTest.class.getPackageName();
     private static final String DOMAIN_PACKAGE = APPLICATION_PACKAGE + ".domain";
     private static final String DOMAIN_MODEL_PACKAGE = DOMAIN_PACKAGE + ".model";
-    private static final String ADAPTERS_PACKAGE = APPLICATION_PACKAGE + ".adapters..";
-    private static final String CONTROLLERS_PACKAGE = APPLICATION_PACKAGE + ".controllers..";
+    private static final String STORES_PACKAGE = APPLICATION_PACKAGE + ".output.stores..";
+    private static final String NOTIFIERS_PACKAGE = APPLICATION_PACKAGE + ".output.notifiers..";
+    private static final String CONTROLLERS_PACKAGE = APPLICATION_PACKAGE + ".input.controllers..";
 
     private static final String GENERATED_PACKAGES = APPLICATION_PACKAGE + ".http.controllers..";
 
@@ -38,11 +39,12 @@ public class ArchTest {
     void adapters_can_only_access_domain() {
         classes()
             .that()
-            .resideInAPackage(ADAPTERS_PACKAGE)
+            .resideInAnyPackage(NOTIFIERS_PACKAGE, STORES_PACKAGE)
             .should()
             .onlyAccessClassesThat()
             .resideInAnyPackage(
-                ADAPTERS_PACKAGE,
+                NOTIFIERS_PACKAGE,
+                STORES_PACKAGE,
                 DOMAIN_PACKAGE,
                 DOMAIN_MODEL_PACKAGE,
                 JAVA_PACKAGES,
@@ -86,7 +88,8 @@ public class ArchTest {
                 APPLICATION_PACKAGE,
                 DOMAIN_PACKAGE,
                 DOMAIN_MODEL_PACKAGE,
-                ADAPTERS_PACKAGE,
+                NOTIFIERS_PACKAGE,
+                STORES_PACKAGE,
                 JAVA_PACKAGES,
                 JAVAX_PACKAGES,
                 "org.slf4j..",

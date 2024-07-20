@@ -1,4 +1,4 @@
-package com.github.jaguililla.appointments.adapters;
+package com.github.jaguililla.appointments.output.stores;
 
 import static java.util.stream.Collectors.groupingBy;
 
