@@ -14,9 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-public class SqlAppointmentsRepository implements AppointmentsRepository {
+public class JdbcTemplateAppointmentsRepository implements AppointmentsRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SqlAppointmentsRepository.class);
+    private static final Logger LOGGER =
+        LoggerFactory.getLogger(JdbcTemplateAppointmentsRepository.class);
 
     private static Appointment appointmentDataMapper(
         final ResultSet row, final int index
@@ -33,7 +34,7 @@ public class SqlAppointmentsRepository implements AppointmentsRepository {
 
     private final NamedParameterJdbcTemplate template;
 
-    public SqlAppointmentsRepository(final DataSource dataSource) {
+    public JdbcTemplateAppointmentsRepository(final DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
     }
 
@@ -91,7 +92,7 @@ public class SqlAppointmentsRepository implements AppointmentsRepository {
             where a.id = :id
             """,
             Map.of("id", id),
-            SqlAppointmentsRepository::appointmentDataMapper
+            JdbcTemplateAppointmentsRepository::appointmentDataMapper
         );
 
         final var x = appointments
@@ -118,7 +119,7 @@ public class SqlAppointmentsRepository implements AppointmentsRepository {
               left join AppointmentsUsers au on a.id = au.appointmentId
               left join Users u on au.userId = u.id
             """,
-            SqlAppointmentsRepository::appointmentDataMapper
+            JdbcTemplateAppointmentsRepository::appointmentDataMapper
         );
 
         final var groupedAppointments = groupAppointments(appointments);

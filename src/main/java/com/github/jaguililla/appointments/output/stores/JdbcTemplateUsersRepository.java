@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-public final class SqlUsersRepository implements UsersRepository {
+public final class JdbcTemplateUsersRepository implements UsersRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SqlUsersRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcTemplateUsersRepository.class);
 
     private static User userDataMapper(
         final ResultSet row, final int index
@@ -24,7 +24,7 @@ public final class SqlUsersRepository implements UsersRepository {
 
     private final NamedParameterJdbcTemplate template;
 
-    public SqlUsersRepository(final DataSource dataSource) {
+    public JdbcTemplateUsersRepository(final DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
     }
 
@@ -37,7 +37,7 @@ public final class SqlUsersRepository implements UsersRepository {
             : template.query(
                 "select * from Users where id in (:id)",
                 Map.of("id", id),
-                SqlUsersRepository::userDataMapper
+                JdbcTemplateUsersRepository::userDataMapper
             );
 
         LOGGER.debug("=== Result: {}", users);

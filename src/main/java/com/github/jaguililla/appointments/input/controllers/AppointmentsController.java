@@ -6,7 +6,7 @@ import com.github.jaguililla.appointments.http.controllers.AppointmentsApi;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentRequest;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentResponse;
 import com.github.jaguililla.appointments.http.controllers.messages.IdResponse;
-import com.github.jaguililla.appointments.domain.Service;
+import com.github.jaguililla.appointments.domain.AppointmentsService;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,10 +19,10 @@ final class AppointmentsController extends BaseController implements Appointment
 
     private static final Logger LOGGER = getLogger(AppointmentsController.class);
 
-    private final Service service;
+    private final AppointmentsService appointmentsService;
 
-    AppointmentsController(final Service service) {
-        this.service = service;
+    AppointmentsController(final AppointmentsService appointmentsService) {
+        this.appointmentsService = appointmentsService;
     }
 
     @Override
@@ -34,7 +34,7 @@ final class AppointmentsController extends BaseController implements Appointment
         final var appointment = AppointmentsMapper.appointment(appointmentRequest);
         final var users = appointmentRequest.getUsers();
 
-        final var createdAppointment = service.create(appointment, users);
+        final var createdAppointment = appointmentsService.create(appointment, users);
 
         final var responseAppointment = AppointmentsMapper.appointmentResponse(createdAppointment);
         return ResponseEntity.ofNullable(responseAppointment);
@@ -46,7 +46,7 @@ final class AppointmentsController extends BaseController implements Appointment
 
         final var uuid = UUID.fromString(id);
 
-        final var delete = service.delete(uuid);
+        final var delete = appointmentsService.delete(uuid);
 
         return ResponseEntity.ofNullable(delete? new IdResponse(uuid) : null);
     }
@@ -57,7 +57,7 @@ final class AppointmentsController extends BaseController implements Appointment
 
         final var uuid = UUID.fromString(id);
 
-        final var appointment = service.get(uuid);
+        final var appointment = appointmentsService.get(uuid);
 
         final var response = AppointmentsMapper.appointmentResponse(appointment);
         return ResponseEntity.ofNullable(response);
@@ -67,7 +67,7 @@ final class AppointmentsController extends BaseController implements Appointment
     public ResponseEntity<List<AppointmentResponse>> readAppointments() {
         LOGGER.info("Reading all appointments");
 
-        final var appointments = service.getAll();
+        final var appointments = appointmentsService.getAll();
 
         final var responses = AppointmentsMapper.appointmentResponses(appointments);
         return ResponseEntity.ofNullable(responses);

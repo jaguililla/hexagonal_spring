@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public final class Service {
+public final class AppointmentsService {
     private final AppointmentsRepository appointmentsRepository;
     private final UsersRepository usersRepository;
     private final AppointmentsNotifier appointmentsNotifier;
 
-    public Service(
+    public AppointmentsService(
         final AppointmentsRepository appointmentsRepository,
         final UsersRepository usersRepository,
         final AppointmentsNotifier appointmentsNotifier

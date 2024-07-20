@@ -1,8 +1,8 @@
 package com.github.jaguililla.appointments;
 
-import com.github.jaguililla.appointments.output.notifiers.KafkaAppointmentsNotifier;
-import com.github.jaguililla.appointments.output.stores.SqlAppointmentsRepository;
-import com.github.jaguililla.appointments.output.stores.SqlUsersRepository;
+import com.github.jaguililla.appointments.output.notifiers.KafkaTemplateAppointmentsNotifier;
+import com.github.jaguililla.appointments.output.stores.JdbcTemplateAppointmentsRepository;
+import com.github.jaguililla.appointments.output.stores.JdbcTemplateUsersRepository;
 import com.github.jaguililla.appointments.domain.*;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -75,33 +75,33 @@ class ApplicationConfiguration {
 
     @Bean
     AppointmentsRepository appointmentsStore(final DataSource dataSource) {
-        final var type = SqlAppointmentsRepository.class.getSimpleName();
+        final var type = JdbcTemplateAppointmentsRepository.class.getSimpleName();
         LOGGER.info("Creating Appointments Store: {}", type);
-        return new SqlAppointmentsRepository(dataSource);
+        return new JdbcTemplateAppointmentsRepository(dataSource);
     }
 
     @Bean
     UsersRepository usersStore(final DataSource dataSource) {
-        final var type = SqlUsersRepository.class.getSimpleName();
+        final var type = JdbcTemplateUsersRepository.class.getSimpleName();
         LOGGER.info("Creating Users Store: {}", type);
-        return new SqlUsersRepository(dataSource);
+        return new JdbcTemplateUsersRepository(dataSource);
     }
 
     @Bean
     AppointmentsNotifier appointmentsNotifier(final KafkaTemplate<String, String> kafkaTemplate) {
-        final var type = KafkaAppointmentsNotifier.class.getSimpleName();
+        final var type = KafkaTemplateAppointmentsNotifier.class.getSimpleName();
         LOGGER.info("Creating Appointments Notifier: {}", type);
-        return new KafkaAppointmentsNotifier(
+        return new KafkaTemplateAppointmentsNotifier(
             kafkaTemplate, notifierTopic, createMessage, deleteMessage
         );
     }
 
     @Bean
-    Service service(
+    AppointmentsService service(
         final AppointmentsRepository appointmentsRepository,
         final UsersRepository usersRepository,
         final AppointmentsNotifier appointmentsNotifier
     ) {
-        return new Service(appointmentsRepository, usersRepository, appointmentsNotifier);
+        return new AppointmentsService(appointmentsRepository, usersRepository, appointmentsNotifier);
     }
 }
