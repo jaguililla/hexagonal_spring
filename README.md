@@ -60,7 +60,7 @@ Application to create appointments (REST API). Appointments are stored in a rela
   an entity, the better (it could be easily accessed by many different services, or use cases).
 * `output.{notifiers,repositories}` driven adapters (implementations of driven ports).
 * `input.controllers` driver adapter (adapters without interface).
-* There are no 'input/driver ports', as they don't need to be decoupled of anything they just use
+* There are no 'input/driver ports', as they don't need to be decoupled from anything they just use
   the domain (and that's acceptable).
 * Subpackages can be created for different adapter implementations (to isolate their code).
 * Code structure and access rules:
@@ -71,7 +71,7 @@ Application to create appointments (REST API). Appointments are stored in a rela
   - **appointments.input.controllers**: contains the REST controllers of the application (driver
     adapter). Classes on this package cannot use any other application layer apart from domain.
   - **appointments.domain**: contains the business rules. Must not reference implementation details
-    (storage, frameworks, etc.) directly, these features should be accessed abstracted by
+    (storage, frameworks, etc.) directly, these features should be accessed by abstract
     interchangeable interfaces. It's not a problem to reference this package from Controllers or
     Repositories.
   - **appointments.domain.model**: holds the business entities. These are the data structures used
