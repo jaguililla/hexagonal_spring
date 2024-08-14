@@ -1,22 +1,24 @@
 package com.github.jaguililla.appointments;
 
+import com.github.jaguililla.appointments.domain.AppointmentsNotifier;
+import com.github.jaguililla.appointments.domain.AppointmentsRepository;
+import com.github.jaguililla.appointments.domain.AppointmentsService;
+import com.github.jaguililla.appointments.domain.UsersRepository;
 import com.github.jaguililla.appointments.output.notifiers.KafkaTemplateAppointmentsNotifier;
 import com.github.jaguililla.appointments.output.repositories.JdbcTemplateAppointmentsRepository;
 import com.github.jaguililla.appointments.output.repositories.JdbcTemplateUsersRepository;
-import com.github.jaguililla.appointments.domain.*;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.*;
-
 import javax.sql.DataSource;
 import java.util.Map;
 

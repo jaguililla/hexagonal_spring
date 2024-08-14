@@ -40,7 +40,7 @@ services:
     depends_on:
       - postgres
       - kafka
-    image: com.github.jaguililla/appointments
+    image: ghcr.io/jaguililla/spring_template/com.github.jaguililla/appointments
     environment:
       GLOBAL_LOG_LEVEL: warn
       APPLICATION_LOG_LEVEL: info

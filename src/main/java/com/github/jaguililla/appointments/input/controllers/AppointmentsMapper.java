@@ -7,7 +7,6 @@ import com.github.jaguililla.appointments.domain.model.User;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentRequest;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentResponse;
 import com.github.jaguililla.appointments.http.controllers.messages.UserResponse;
-
 import java.util.List;
 import java.util.Set;
 

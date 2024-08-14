@@ -1,0 +1,57 @@
+
+name: Release Application
+on:
+  push:
+    branches: [ main ]
+
+permissions: read-all
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: SDKMAN Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.sdkman
+          key: "${{ runner.os }}-sdkman-${{ hashFiles('.sdkmanrc') }}"
+          restore-keys: "${{ runner.os }}-sdkman-"
+      - name: Maven Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: "${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}"
+          restore-keys: "${{ runner.os }}-maven-"
+      - name: Install SDKMAN
+        run: curl -s "https://get.sdkman.io?rcupdate=false" | bash
+      # Required for publishing (Maven settings.xml repository)
+      - name: Java Setup
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: temurin
+      - name: Publish and Tag Application
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk env install
+
+          ./mvnw -B -P release
+      - name: Publish Client
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export CLIENT_PATH='target/generated-sources/openapi'
+          export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
+          export REPOSITORY='https://maven.pkg.github.com/jaguililla/spring_template'
+          export ALT_REPOSITORY="altDeploymentRepository=github::default::${REPOSITORY}"
+
+          rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
+          mvn -f "${CLIENT_PATH}/pom.xml" -B -D ${ALT_REPOSITORY} clean deploy

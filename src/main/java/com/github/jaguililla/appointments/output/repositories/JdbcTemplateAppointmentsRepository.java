@@ -6,14 +6,14 @@ import static java.util.stream.Collectors.groupingBy;
 import com.github.jaguililla.appointments.domain.AppointmentsRepository;
 import com.github.jaguililla.appointments.domain.model.Appointment;
 import com.github.jaguililla.appointments.domain.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Stream;
-import javax.sql.DataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 public class JdbcTemplateAppointmentsRepository implements AppointmentsRepository {
 
