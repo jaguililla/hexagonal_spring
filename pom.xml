@@ -28,14 +28,14 @@
     <client.package>${openapi.package}.client</client.package>
     <spring.server>undertow</spring.server>
     <openapi.integration>ui</openapi.integration>
-    <image.registry>ghcr.io/jaguililla/spring_template</image.registry>
+    <image.registry>ghcr.io/jaguililla/hexagonal_spring</image.registry>
     <release.goal>deploy</release.goal>
   </properties>
 
   <distributionManagement>
     <repository>
       <id>github</id>
-      <url>https://maven.pkg.github.com/jaguililla/spring_template</url>
+      <url>https://maven.pkg.github.com/jaguililla/hexagonal_spring</url>
     </repository>
   </distributionManagement>
 

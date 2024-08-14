@@ -50,7 +50,7 @@ jobs:
         run: |
           export CLIENT_PATH='target/generated-sources/openapi'
           export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
-          export REPOSITORY='https://maven.pkg.github.com/jaguililla/spring_template'
+          export REPOSITORY='https://maven.pkg.github.com/jaguililla/hexagonal_spring'
           export ALT_REPOSITORY="altDeploymentRepository=github::default::${REPOSITORY}"
 
           rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
