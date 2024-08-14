@@ -7,7 +7,6 @@ import static java.util.Objects.requireNonNullElse;
 
 import com.github.jaguililla.appointments.domain.model.Appointment;
 import com.github.jaguililla.appointments.domain.model.User;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

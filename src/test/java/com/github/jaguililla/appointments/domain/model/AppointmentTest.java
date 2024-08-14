@@ -1,17 +1,16 @@
 package com.github.jaguililla.appointments.domain.model;
 
-import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
 import static com.github.jaguililla.appointments.Asserts.assertIllegalArgument;
 import static com.github.jaguililla.appointments.Asserts.assertNull;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Locale.US;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 class AppointmentTest {
 

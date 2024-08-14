@@ -1,5 +1,7 @@
 package com.github.jaguililla.appointments;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -10,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Simplification of RestTemplate for testing. It holds the last received response to ease testing

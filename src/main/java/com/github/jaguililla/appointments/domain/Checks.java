@@ -1,10 +1,10 @@
 package com.github.jaguililla.appointments.domain;
 
-import java.time.LocalDateTime;
-
 import static java.lang.String.format;
 import static java.util.Locale.US;
 import static java.util.Objects.requireNonNull;
+
+import java.time.LocalDateTime;
 
 public interface Checks {
 

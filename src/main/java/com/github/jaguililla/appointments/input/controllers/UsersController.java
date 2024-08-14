@@ -1,13 +1,14 @@
 package com.github.jaguililla.appointments.input.controllers;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import com.github.jaguililla.appointments.domain.AppointmentsService;
 import com.github.jaguililla.appointments.http.controllers.UsersApi;
-import com.github.jaguililla.appointments.http.controllers.messages.*;
+import com.github.jaguililla.appointments.http.controllers.messages.UserRequest;
+import com.github.jaguililla.appointments.http.controllers.messages.UserResponse;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 @Controller
 final class UsersController extends BaseController implements UsersApi {

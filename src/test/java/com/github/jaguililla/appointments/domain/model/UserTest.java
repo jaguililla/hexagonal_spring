@@ -1,12 +1,11 @@
 package com.github.jaguililla.appointments.domain.model;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.UUID;
-
 import static com.github.jaguililla.appointments.Asserts.assertIllegalArgument;
 import static com.github.jaguililla.appointments.Asserts.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+import java.util.UUID;
 
 class UserTest {
 

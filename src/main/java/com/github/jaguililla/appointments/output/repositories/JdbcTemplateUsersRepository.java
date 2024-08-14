@@ -1,17 +1,20 @@
 package com.github.jaguililla.appointments.output.repositories;
 
+import static java.util.Collections.emptySet;
+import static java.util.Objects.requireNonNull;
+
 import com.github.jaguililla.appointments.domain.UsersRepository;
 import com.github.jaguililla.appointments.domain.model.User;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
-import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-
-import static java.util.Collections.emptySet;
-import static java.util.Objects.requireNonNull;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public final class JdbcTemplateUsersRepository implements UsersRepository {
 

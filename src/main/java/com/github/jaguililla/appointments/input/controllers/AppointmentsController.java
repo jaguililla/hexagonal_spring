@@ -7,12 +7,11 @@ import com.github.jaguililla.appointments.http.controllers.AppointmentsApi;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentRequest;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentResponse;
 import com.github.jaguililla.appointments.http.controllers.messages.IdResponse;
-
-import java.util.List;
-import java.util.UUID;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import java.util.List;
+import java.util.UUID;
 
 @Controller
 final class AppointmentsController extends BaseController implements AppointmentsApi {
