@@ -28,7 +28,16 @@
     <client.package>${openapi.package}.client</client.package>
     <spring.server>undertow</spring.server>
     <openapi.integration>ui</openapi.integration>
+    <image.registry>ghcr.io/jaguililla/spring_template</image.registry>
+    <release.goal>deploy</release.goal>
   </properties>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/jaguililla/spring_template</url>
+    </repository>
+  </distributionManagement>
 
   <dependencies>
     <dependency>

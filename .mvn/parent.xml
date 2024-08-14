@@ -29,6 +29,8 @@
     <openapi.package>${project.groupId}.${project.artifactId}.http</openapi.package>
     <controllers.package>${openapi.package}.controllers</controllers.package>
     <client.package>${openapi.package}.client</client.package>
+    <image.name>${project.groupId}/${project.artifactId}</image.name>
+    <release.goal>verify</release.goal> <!-- verify | deploy -->
     <spring.server>undertow</spring.server> <!-- undertow | jetty -->
     <openapi.integration>ui</openapi.integration> <!-- ui | api -->
 
@@ -108,19 +110,30 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <image>
+            <name>${image.registry}/${image.name}:${project.version}</name>
             <tags>
-              <tag>${project.groupId}/${project.artifactId}:${project.version}</tag>
-              <tag>${project.groupId}/${project.artifactId}:latest</tag>
-              <tag>${project.groupId}/${project.artifactId}</tag>
+              <tag>${image.registry}/${image.name}:latest</tag>
             </tags>
             <env>
               <JAVA_TOOL_OPTIONS>
                 -XX:+AlwaysPreTouch -XX:+UseParallelGC -XX:+UseNUMA
               </JAVA_TOOL_OPTIONS>
+              <BP_JVM_JLINK_ENABLED>true</BP_JVM_JLINK_ENABLED>
+              <BPL_JVM_CDS_ENABLED>true</BPL_JVM_CDS_ENABLED>
+              <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
               <BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
             </env>
           </image>
         </configuration>
+        <executions>
+          <execution>
+            <id>image</id>
+            <goals>
+              <goal>build-image</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -207,6 +220,9 @@
               <configOptions>
                 <useJakartaEe>true</useJakartaEe>
                 <openApiNullable>${openApiNullable}</openApiNullable>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}-client</artifactId>
+                <artifactVersion>${project.version}</artifactVersion>
               </configOptions>
             </configuration>
           </execution>
@@ -230,6 +246,84 @@
           <version>0.2.6</version>
         </dependency>
       </dependencies>
+    </profile>
+
+    <profile>
+      <id>release</id>
+
+      <build>
+        <defaultGoal>${release.goal}</defaultGoal>
+
+        <plugins>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <docker>
+                <publishRegistry>
+                  <username>${env.GITHUB_ACTOR}</username>
+                  <password>${env.GITHUB_TOKEN}</password>
+                </publishRegistry>
+              </docker>
+              <publish>true</publish>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.3.0</version>
+            <configuration>
+              <executable>git</executable>
+            </configuration>
+
+            <executions>
+              <execution>
+                <id>config</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <arguments>
+                    <argument>config</argument>
+                    <argument>--global</argument>
+                    <argument>user.name</argument>
+                    <argument>${env.GITHUB_ACTOR}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>tag</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <arguments>
+                    <argument>tag</argument>
+                    <argument>-m</argument>
+                    <argument>Release ${project.version}</argument>
+                    <argument>${project.version}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>push</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <arguments>
+                    <argument>push</argument>
+                    <argument>--tags</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

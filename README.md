@@ -1,5 +1,5 @@
 
-> # ABOUT
+> # 🎯 ABOUT
 > This is a 'best practices' template project. However, it is an opinionated take on that.
 >
 > DISCLAIMER: I'm by no means an expert on Spring Boot (it's not even my preferred tool), one reason
@@ -16,15 +16,19 @@
 >
 > Have fun!
 
-# Appointments
+# 🗓️ Appointments
 Application to create appointments (REST API). Appointments are stored in a relational DB
 (Postgres), and their creation/deletion is published to a Kafka broker.
 
-## Architecture
-* Hexagonal Architecture
+## 📘 Architecture
+* [Hexagonal]/[Onion]/[Clean] Architecture
 * OpenAPI code generation (server and client)
 
-## Stack
+[Hexagonal]: https://alistair.cockburn.us/hexagonal-architecture
+[Onion]: https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1
+[Clean]: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+
+## 🧰 Stack
 * Java 21
 * Spring 3.3 (configurable server, 'undertow' by default)
   * Actuator (healthcheck, etc.)
@@ -32,26 +36,26 @@ Application to create appointments (REST API). Appointments are stored in a rela
 * Postgres
 * Kafka
 
-## Runtime
+## 🏎️ Runtime
 * Cloud Native Buildpacks (building)
 * Docker Compose (local environment with the infrastructure)
 
-## Test
+## 🧪 Test
 * ArchUnit (preferred over Java modules: it allows naming checks, etc.)
 * Testcontainers (used to provide a test instance of Postgres and Kafka)
 
-## Development
+## ⚒️ Development
 * SDKMAN (allows to use simpler runners on CI)
 * Maven Wrapper (Maven can be provided by SDKMAN, however, Maven Wrapper has better IDE support)
 * Editorconfig (supported by a lot of editors, rules limited though)
 * CI pipelines for GitHub and GitLab
 
-## Requirements
+## 📑 Requirements
 * Docker Compose
 * JDK 21+
 * SDKMAN (optional, recommended)
 
-## Design
+## 📚 Design
 * The REST API controller and client are generated from the OpenAPI spec at build time.
 * Hexagonal Architecture: domain, ports, and adapters.
 * Use cases are 'one responsibility services'. Start with services, split when they get bigger.
@@ -77,7 +81,16 @@ Application to create appointments (REST API). Appointments are stored in a rela
   - **appointments.domain.model**: holds the business entities. These are the data structures used
     by the business logic. Follows the same access rules as its parent package.
 
-## Design Decisions
+## 📖 Terms
+* UseCase/Case
+* Service
+* Adapter
+* Port
+* Domain
+* Input/driver adapter
+* Output/driven adapter
+
+## 🤔 Design Decisions
 * Minimal: don't use libraries to implement easy stuff (even if that's boring).
 * Prefer flat structure (avoid empty parent packages).
 * Less coupling with Spring (easier to migrate, to other frameworks/toolkits).
@@ -92,10 +105,10 @@ Application to create appointments (REST API). Appointments are stored in a rela
   a container for this application.
 * Atomicity in notifiers (with outbox pattern) should be done with a different notifier adapter.
 
-## Set up
+## 🎚️ Set up
 * `sdk env install`
 
-## Commands
+## ▶️ Commands
 All commands assume a Unix like OS.
 
 The most important commands to operate the project are:
@@ -110,7 +123,7 @@ To run or deploy the application:
 * Run JAR locally: `java -jar target/appointments-0.1.0.jar`
 * Run container: `docker-compose --profile local up`
 
-## Service Management
+## 🤖 Service Management
 * You can check the API spec using [Swagger UI](http://localhost:8080/swagger-ui/index.html).
 
 ### Docker
