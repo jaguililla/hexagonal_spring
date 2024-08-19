@@ -29,7 +29,6 @@
     <spring.server>undertow</spring.server>
     <openapi.integration>ui</openapi.integration>
     <image.registry>ghcr.io/jaguililla/hexagonal_spring</image.registry>
-    <release.goal>deploy</release.goal>
   </properties>
 
   <distributionManagement>
