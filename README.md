@@ -55,6 +55,31 @@ Application to create appointments (REST API). Appointments are stored in a rela
 * JDK 21+
 * SDKMAN (optional, recommended)
 
+## 📖 Terms
+* **Port:** interface to set a boundary among application logic and implementation details.
+* **Adapter:**: port implementation to bridge the application's domain with the tools used in
+  the system.
+* **Domain:**: application logic and
+* **Service:**
+* **UseCase/Case:**
+* **Input/Driver Adapter:**
+* **Output/Driven Adapter:**
+
+## 🤔 Design Decisions
+* Minimal: don't use libraries to implement easy stuff (even if that's boring).
+* Prefer flat structure (avoid empty parent packages).
+* Less coupling with Spring (easier to migrate, to other frameworks/toolkits).
+* Not use Spring integrations if a library can be used directly.
+* No Spring profiles (settings are loaded from the environment).
+* Split API spec in different files for future modularity.
+* Prefer service independence over code reuse (sharing libraries among microservices), less
+  coupling foster evolution among services and favor scalability when more teams/services are added.
+* Take out the common (general) part of the `pom.xml` to `parent.xml`, however, it should not be
+  moved to another repository (because of avoid coupling rule above).
+* Docker Compose profiles are used to separate infrastructure from a complete environment including
+  a container for this application.
+* Atomicity in notifiers (with outbox pattern) should be done with a different notifier adapter.
+
 ## 📚 Design
 * The REST API controller and client are generated from the OpenAPI spec at build time.
 * Hexagonal Architecture: domain, ports, and adapters.
@@ -80,30 +105,6 @@ Application to create appointments (REST API). Appointments are stored in a rela
     Repositories.
   - **appointments.domain.model**: holds the business entities. These are the data structures used
     by the business logic. Follows the same access rules as its parent package.
-
-## 📖 Terms
-* UseCase/Case
-* Service
-* Adapter
-* Port
-* Domain
-* Input/driver adapter
-* Output/driven adapter
-
-## 🤔 Design Decisions
-* Minimal: don't use libraries to implement easy stuff (even if that's boring).
-* Prefer flat structure (avoid empty parent packages).
-* Less coupling with Spring (easier to migrate, to other frameworks/toolkits).
-* Not use Spring integrations if a library can be used directly.
-* No Spring profiles (settings are loaded from the environment).
-* Split API spec in different files for future modularity.
-* Prefer service independence over code reuse (sharing libraries among microservices), less
-  coupling foster evolution among services and favor scalability when more teams/services are added.
-* Take out the common (general) part of the `pom.xml` to `parent.xml`, however, it should not be
-  moved to another repository (because of avoid coupling rule above).
-* Docker Compose profiles are used to separate infrastructure from a complete environment including
-  a container for this application.
-* Atomicity in notifiers (with outbox pattern) should be done with a different notifier adapter.
 
 ## 🎚️ Set up
 * `sdk env install`
