@@ -56,14 +56,13 @@ Application to create appointments (REST API). Appointments are stored in a rela
 * SDKMAN (optional, recommended)
 
 ## 📖 Terms
-* **Port:** interface to set a boundary among application logic and implementation details.
-* **Adapter:**: port implementation to bridge the application's domain with the tools used in
-  the system.
-* **Domain:**: application logic and
-* **Service:**
-* **UseCase/Case:**
-* **Input/Driver Adapter:**
-* **Output/Driven Adapter:**
+* **Port:** interface to set a boundary between application logic and implementation details.
+* **Adapter:**: port implementation to connect the application domain with the system's context.
+* **Domain:**: application logic and model entities.
+* **Service:**: implement operations with a common topic altogether. Usually calls driven ports.
+* **UseCase/Case:**: single operation service (isolate features). They can coexist with services.
+* **Output/Driven Adapter:**: implementation of ports called from the domain.
+* **Input/Driver Adapter:**: commands that call application logic (don't require a port).
 
 ## 🤔 Design Decisions
 * Minimal: don't use libraries to implement easy stuff (even if that's boring).

@@ -16,7 +16,7 @@
   </parent>
 
   <artifactId>appointments</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 
   <name>Appointments</name>
   <description>Application to create appointments (REST API)</description>
