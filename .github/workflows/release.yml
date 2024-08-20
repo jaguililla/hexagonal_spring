@@ -43,7 +43,7 @@ jobs:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk env install
 
-          ./mvnw -B -P release
+          ./mvnw -X -B -P release
       - name: Publish Client
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
