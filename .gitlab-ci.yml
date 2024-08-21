@@ -1,4 +1,8 @@
 
+stages:
+  - build
+  - release
+
 services:
   - name: docker:dind
     command:
@@ -13,6 +17,8 @@ variables:
 build:
   stage: build
   image: ubuntu:24.04
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
   cache:
     key: build-cache
     paths:
@@ -25,3 +31,26 @@ build:
   script:
     - sdk env install
     - ./mvnw
+
+release:
+  stage: release
+  image: ubuntu:24.04
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+    - apt update
+    - apt -y install curl zip unzip
+    - curl -s "https://get.sdkman.io?rcupdate=false" | bash
+    - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  script:
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#    - docker build -t $CI_REGISTRY/group/project/image:latest .
+#    - docker push $CI_REGISTRY/group/project/image:latest
+    - sdk env install
+    - ./mvnw -B -P release
+    - export CLIENT_PATH='target/generated-sources/openapi'
+    - export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
+    - export REPOSITORY='https://maven.pkg.github.com/jaguililla/hexagonal_spring'
+    - export ALT_REPOSITORY="altDeploymentRepository=github::default::${REPOSITORY}"
+    - rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
+    - mvn -f "${CLIENT_PATH}/pom.xml" -B -D ${ALT_REPOSITORY} clean deploy
