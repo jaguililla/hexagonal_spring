@@ -4,7 +4,7 @@ name: appointments
 services:
 
   postgres:
-    image: postgres:16-alpine
+    image: docker.io/postgres:16-alpine
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
@@ -16,7 +16,7 @@ services:
       - "15432:5432"
 
   kafka:
-    image: apache/kafka:3.7.0
+    image: docker.io/apache/kafka:3.7.0
     environment:
       CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
       KAFKA_NODE_ID: 1
@@ -40,7 +40,7 @@ services:
     depends_on:
       - postgres
       - kafka
-    image: ghcr.io/jaguililla/hexagonal_spring/com.github.jaguililla/appointments
+    image: docker.io/com.github.jaguililla/appointments
     environment:
       GLOBAL_LOG_LEVEL: warn
       APPLICATION_LOG_LEVEL: info
