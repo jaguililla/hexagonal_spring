@@ -42,8 +42,11 @@ jobs:
         run: |
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk env install
+          export REGISTRY_USERNAME="${GITHUB_ACTOR}"
+          export REGISTRY_PASSWORD="${GITHUB_TOKEN}"
+          export GIT_USERNAME="${GITHUB_ACTOR}"
 
-          ./mvnw -B -P release
+          ./mvnw -D image.registry=ghcr.io/jaguililla/hexagonal_spring -B -P release
       - name: Publish Client
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

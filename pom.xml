@@ -16,7 +16,7 @@
   </parent>
 
   <artifactId>appointments</artifactId>
-  <version>0.1.0</version>
+  <version>0.3.1</version>
 
   <name>Appointments</name>
   <description>Application to create appointments (REST API)</description>
@@ -28,7 +28,7 @@
     <client.package>${openapi.package}.client</client.package>
     <spring.server>undertow</spring.server>
     <openapi.integration>ui</openapi.integration>
-    <image.registry>ghcr.io/jaguililla/hexagonal_spring</image.registry>
+    <release.goal>deploy</release.goal>
   </properties>
 
   <distributionManagement>

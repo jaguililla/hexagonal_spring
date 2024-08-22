@@ -43,14 +43,14 @@ release:
     - curl -s "https://get.sdkman.io?rcupdate=false" | bash
     - source "$HOME/.sdkman/bin/sdkman-init.sh"
   script:
-#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#    - docker build -t $CI_REGISTRY/group/project/image:latest .
-#    - docker push $CI_REGISTRY/group/project/image:latest
     - sdk env install
-    - ./mvnw -B -P release
+    - export REGISTRY_USERNAME="${CI_REGISTRY_USER}"
+    - export REGISTRY_PASSWORD="${CI_REGISTRY_PASSWORD}"
+    - export GIT_USERNAME="${GITLAB_USER_NAME}"
     - export CLIENT_PATH='target/generated-sources/openapi'
     - export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
     - export REPOSITORY='https://maven.pkg.github.com/jaguililla/hexagonal_spring'
     - export ALT_REPOSITORY="altDeploymentRepository=github::default::${REPOSITORY}"
+    - ./mvnw -D image.registry=${CI_REGISTRY}/jaguililla/hexagonal_spring -B -P release
     - rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
     - mvn -f "${CLIENT_PATH}/pom.xml" -B -D ${ALT_REPOSITORY} clean deploy
