@@ -50,7 +50,8 @@ release:
     - export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
     - export REPOSITORY='https://gitlab.example.com/api/v4/projects/jaguililla/hexagonal_spring/packages/maven'
     - export ALT_REPOSITORY="altDeploymentRepository=github::default::${REPOSITORY}"
-    - ./mvnw -D image.registry=${CI_REGISTRY}/jaguililla/hexagonal_spring -B -P publish
+    - export IMG_REGISTRY="${CI_REGISTRY}/jaguililla/hexagonal_spring"
+    - ./mvnw -D ${ALT_REPOSITORY} -D image.registry=${IMG_REGISTRY} -B -P publish
     - rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
     - mvn -f "${CLIENT_PATH}/pom.xml" -B -D ${ALT_REPOSITORY} clean deploy
   release:
