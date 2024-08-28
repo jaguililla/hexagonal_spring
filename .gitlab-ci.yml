@@ -46,11 +46,13 @@ release:
     - sdk env install
     - export REGISTRY_USERNAME="${CI_REGISTRY_USER}"
     - export REGISTRY_PASSWORD="${CI_REGISTRY_PASSWORD}"
-    - export GIT_USERNAME="${GITLAB_USER_NAME}"
     - export CLIENT_PATH='target/generated-sources/openapi'
     - export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
-    - export REPOSITORY='https://maven.pkg.github.com/jaguililla/hexagonal_spring'
+    - export REPOSITORY='https://gitlab.example.com/api/v4/projects/jaguililla/hexagonal_spring/packages/maven'
     - export ALT_REPOSITORY="altDeploymentRepository=github::default::${REPOSITORY}"
-    - ./mvnw -D image.registry=${CI_REGISTRY}/jaguililla/hexagonal_spring -B -P release
+    - ./mvnw -D image.registry=${CI_REGISTRY}/jaguililla/hexagonal_spring -B -P publish
     - rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
     - mvn -f "${CLIENT_PATH}/pom.xml" -B -D ${ALT_REPOSITORY} clean deploy
+  release:
+    tag_name: tag
+    description: Description TODO

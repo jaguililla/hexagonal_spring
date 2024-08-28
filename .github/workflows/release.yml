@@ -46,7 +46,7 @@ jobs:
           export REGISTRY_PASSWORD="${GITHUB_TOKEN}"
           export GIT_USERNAME="${GITHUB_ACTOR}"
 
-          ./mvnw -D image.registry=ghcr.io/jaguililla/hexagonal_spring -B -P release
+          ./mvnw -D image.registry=ghcr.io/jaguililla/hexagonal_spring -B -P publish,release
       - name: Publish Client
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

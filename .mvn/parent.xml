@@ -249,7 +249,7 @@
     </profile>
 
     <profile>
-      <id>release</id>
+      <id>publish</id>
 
       <build>
         <defaultGoal>${release.goal}</defaultGoal>
@@ -268,6 +268,15 @@
               <publish>true</publish>
             </configuration>
           </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>release</id>
+
+      <build>
+        <plugins>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
