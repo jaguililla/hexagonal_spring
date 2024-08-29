@@ -73,4 +73,3 @@ release:
   release:
     tag_name: ${POM_VERSION}
     description: Release ${POM_VERSION}
-    ref: ${POM_VERSION}
