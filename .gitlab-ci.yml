@@ -34,7 +34,7 @@ build:
 
 release:
   stage: release
-  image: ubuntu:24.04
+  image: maven:3
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   before_script:
@@ -51,9 +51,10 @@ release:
     - export REPOSITORY="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven"
     - export ALT_REPOSITORY="altDeploymentRepository=gitlab::default::${REPOSITORY}"
     - export IMG_REGISTRY="${CI_REGISTRY}/jaguililla/hexagonal_spring"
+    - export POM_VERSION="$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
     - ./mvnw -s ci_settings.xml -D ${ALT_REPOSITORY} -D image.registry=${IMG_REGISTRY} -B -P publish
     - rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
     - mvn -f "${CLIENT_PATH}/pom.xml" -B -D ${ALT_REPOSITORY} clean deploy
   release:
-    tag_name: tag
-    description: Description TODO
+    tag_name: ${POM_VERSION}
+    description: Release ${POM_VERSION}
