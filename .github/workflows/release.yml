@@ -48,7 +48,7 @@ jobs:
 
           ./mvnw -D image.registry=ghcr.io/jaguililla/hexagonal_spring -D spring-boot.build-image.publish=true -B deploy
 
-          git config user.name "${GITHUB_ACTOR}"
+          git config --global user.name "${GITHUB_ACTOR}"
           git tag -m "Release ${POM_VERSION}" "${POM_VERSION}"
           git push --tags
       - name: Publish Client
