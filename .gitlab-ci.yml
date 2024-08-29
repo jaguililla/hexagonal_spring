@@ -48,10 +48,10 @@ release:
     - export REGISTRY_PASSWORD="${CI_REGISTRY_PASSWORD}"
     - export CLIENT_PATH='target/generated-sources/openapi'
     - export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
-    - export REPOSITORY='https://gitlab.com/api/v4/projects/58632066/packages/maven'
-    - export ALT_REPOSITORY="altDeploymentRepository=github::default::${REPOSITORY}"
+    - export REPOSITORY="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven"
+    - export ALT_REPOSITORY="altDeploymentRepository=gitlab::default::${REPOSITORY}"
     - export IMG_REGISTRY="${CI_REGISTRY}/jaguililla/hexagonal_spring"
-    - ./mvnw -D ${ALT_REPOSITORY} -D image.registry=${IMG_REGISTRY} -B -P publish
+    - ./mvnw -s ci_settings.xml -D ${ALT_REPOSITORY} -D image.registry=${IMG_REGISTRY} -B -P publish
     - rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
     - mvn -f "${CLIENT_PATH}/pom.xml" -B -D ${ALT_REPOSITORY} clean deploy
   release:
