@@ -32,7 +32,7 @@ build:
     - sdk env install
     - ./mvnw
 
-release:
+publish:
   stage: release
   image: maven:3
   rules:
@@ -51,10 +51,19 @@ release:
     - export REPOSITORY="${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/maven"
     - export ALT_REPOSITORY="altDeploymentRepository=gitlab::default::${REPOSITORY}"
     - export IMG_REGISTRY="${CI_REGISTRY}/jaguililla/hexagonal_spring"
-    - export POM_VERSION="$(mvn help:evaluate -D expression=project.version -q -D forceStdout)"
     - ./mvnw -s ci_settings.xml -D ${ALT_REPOSITORY} -D image.registry=${IMG_REGISTRY} -D spring-boot.build-image.publish=true -B deploy
     - rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
     - mvn -s ci_settings.xml -f "${CLIENT_PATH}/pom.xml" -B -D ${ALT_REPOSITORY} clean deploy
+
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  dependencies:
+    - publish
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - export POM_VERSION="$(mvn help:evaluate -D expression=project.version -q -D forceStdout)"
   release:
     tag_name: ${POM_VERSION}
     description: Release ${POM_VERSION}
