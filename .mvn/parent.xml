@@ -110,6 +110,12 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
+          <docker>
+            <publishRegistry>
+              <username>${env.REGISTRY_USERNAME}</username>
+              <password>${env.REGISTRY_PASSWORD}</password>
+            </publishRegistry>
+          </docker>
           <image>
             <name>${image.registry}/${image.name}:${project.version}</name>
             <tags>
@@ -246,93 +252,6 @@
           <version>0.2.6</version>
         </dependency>
       </dependencies>
-    </profile>
-
-    <profile>
-      <id>publish</id>
-
-      <build>
-        <defaultGoal>${release.goal}</defaultGoal>
-
-        <plugins>
-          <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-              <docker>
-                <publishRegistry>
-                  <username>${env.REGISTRY_USERNAME}</username>
-                  <password>${env.REGISTRY_PASSWORD}</password>
-                </publishRegistry>
-              </docker>
-              <publish>true</publish>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>release</id>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>3.3.0</version>
-            <configuration>
-              <executable>git</executable>
-            </configuration>
-
-            <executions>
-              <execution>
-                <id>config</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <arguments>
-                    <argument>config</argument>
-                    <argument>--global</argument>
-                    <argument>user.name</argument>
-                    <argument>${env.GIT_USERNAME}</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-              <execution>
-                <id>tag</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <arguments>
-                    <argument>tag</argument>
-                    <argument>-m</argument>
-                    <argument>Release ${project.version}</argument>
-                    <argument>${project.version}</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-              <execution>
-                <id>push</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <arguments>
-                    <argument>push</argument>
-                    <argument>--tags</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
   </profiles>
 </project>
