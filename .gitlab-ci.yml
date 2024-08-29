@@ -68,6 +68,8 @@ release:
       artifacts: true
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - echo "Release version ${POM_VERSION}"
   release:
     tag_name: ${POM_VERSION}
     description: Release ${POM_VERSION}
