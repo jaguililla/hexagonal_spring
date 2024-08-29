@@ -48,7 +48,7 @@ release:
     - export REGISTRY_PASSWORD="${CI_REGISTRY_PASSWORD}"
     - export CLIENT_PATH='target/generated-sources/openapi'
     - export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
-    - export REPOSITORY='https://gitlab.example.com/api/v4/projects/jaguililla/hexagonal_spring/packages/maven'
+    - export REPOSITORY='https://gitlab.com/api/v4/projects/jaguililla/hexagonal_spring/packages/maven'
     - export ALT_REPOSITORY="altDeploymentRepository=github::default::${REPOSITORY}"
     - export IMG_REGISTRY="${CI_REGISTRY}/jaguililla/hexagonal_spring"
     - ./mvnw -D ${ALT_REPOSITORY} -D image.registry=${IMG_REGISTRY} -B -P publish
