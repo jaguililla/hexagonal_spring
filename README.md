@@ -2,19 +2,16 @@
 > # 🎯 ABOUT
 > This is a 'best practices' template project. However, it is an opinionated take on that.
 >
-> DISCLAIMER: I'm by no means an expert on Spring Boot (it's not even my preferred tool), one reason
-> to do this is to learn. Opinions are welcomed (with proper reasoning), personal opinions (like
-> naming, libraries, etc.) should be posted in the discussions section.
->
-> To share feedback, you can use the following tools:
-> * Issues: to report bugs, or request new features
-> * Discussions: to raise questions about the implementation decisions, propose alternatives, etc.
-> * Pull Requests: to fix problems (i.e.: implementing TODOs or fixing bugs)
+> DISCLAIMER: I'm by no means an expert on Spring Boot, one reason to do this is to learn it.
+> Opinions are welcomed (with proper reasoning), check the [contributing] section to share your
+> thoughts.
 >
 > The project is mirrored on [GitLab](https://gitlab.com/jaguililla/hexagonal_spring) for CI
 > demonstration purposes.
 >
 > Have fun!
+
+[contributing]: https://github.com/jaguililla/hexagonal_spring/contribute
 
 # 🗓️ Appointments
 Application to create appointments (REST API). Appointments are stored in a relational DB
