@@ -45,10 +45,13 @@ jobs:
           export REGISTRY_USERNAME="${GITHUB_ACTOR}"
           export REGISTRY_PASSWORD="${GITHUB_TOKEN}"
           export POM_VERSION="$(mvn help:evaluate -D expression=project.version -q -D forceStdout)"
+          export MAVEN_ARGS="--quiet --batch-mode"
+          export CI_PUBLISH="spring-boot.build-image.publish=true"
+          export IMG_REGISTRY="image.registry=ghcr.io/jaguililla/hexagonal_spring"
 
-          ./mvnw -D image.registry=ghcr.io/jaguililla/hexagonal_spring -D spring-boot.build-image.publish=true -B deploy
+          ./mvnw -D ${IMG_REGISTRY} -D ${CI_PUBLISH} deploy
 
-          git config user.name "${GITHUB_ACTOR}"
+          git config --global user.name "${GITHUB_ACTOR}"
           git tag -m "Release ${POM_VERSION}" "${POM_VERSION}"
           git push --tags
       - name: Publish Client
