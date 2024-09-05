@@ -1,6 +1,7 @@
 
 > # 🎯 ABOUT
-> This is a 'best practices' template project. However, it is an opinionated take on that.
+> This is a 'best practices' template project for Spring Boot with Hexagonal Architecture. However,
+> it is an opinionated take on that.
 >
 > DISCLAIMER: I'm by no means an expert on Spring Boot, one reason to do this is to learn it.
 > Opinions are welcomed (with proper reasoning), check the [contributing] section to share your
@@ -14,7 +15,7 @@
 [contributing]: https://github.com/jaguililla/hexagonal_spring/contribute
 
 # 🗓️ Appointments
-Application to create appointments (REST API). Appointments are stored in a relational DB
+Example application to create appointments (REST API). Appointments are stored in a relational DB
 (Postgres), and their creation/deletion is published to a Kafka broker.
 
 ## 📘 Architecture
@@ -52,7 +53,22 @@ Application to create appointments (REST API). Appointments are stored in a rela
 * JDK 21+
 * SDKMAN (optional, recommended)
 
-## 📖 Terms
+## 🤔 Design Decisions
+* Simplicity and pragmatism over Hexagonal Architectures 'by the book'.
+* Minimal: don't use libraries to implement easy stuff (even if that's boring).
+* Start small, split and refactor when features are added (I.e.: split services into use cases).
+* Prefer flat structure (avoid empty parent packages if possible).
+* Small coupling with Spring (easier to migrate, to other frameworks/toolkits).
+* Not use Spring integrations if a library can be used directly.
+* No Spring profiles (settings are loaded from the environment).
+* Split API spec in different files for future modularity.
+* Prefer service independence over code reuse (sharing libraries among microservices).
+* Docker Compose profiles are used to separate infrastructure from a complete local environment.
+* Atomicity in notifiers (with outbox pattern) should be done with a different notifier adapter.
+* No input ports: they don't need to be decoupled, they just use the domain (and that's acceptable).
+
+## 📖 Architecture
+![Architecture Diagram](doc/architecture.svg)
 * **Port:** interface to set a boundary between application logic and implementation details.
 * **Adapter:**: port implementation to connect the application domain with the system's context.
 * **Domain:**: application logic and model entities.
@@ -61,49 +77,19 @@ Application to create appointments (REST API). Appointments are stored in a rela
 * **Output/Driven Adapter:**: implementation of ports called from the domain.
 * **Input/Driver Adapter:**: commands that call application logic (don't require a port).
 
-## 🤔 Design Decisions
-* Minimal: don't use libraries to implement easy stuff (even if that's boring).
-* Prefer flat structure (avoid empty parent packages).
-* Less coupling with Spring (easier to migrate, to other frameworks/toolkits).
-* Not use Spring integrations if a library can be used directly.
-* No Spring profiles (settings are loaded from the environment).
-* Split API spec in different files for future modularity.
-* Prefer service independence over code reuse (sharing libraries among microservices), less
-  coupling foster evolution among services and favor scalability when more teams/services are added.
-* Take out the common (general) part of the `pom.xml` to `parent.xml`, however, it should not be
-  moved to another repository (because of avoid coupling rule above).
-* Docker Compose profiles are used to separate infrastructure from a complete environment including
-  a container for this application.
-* Atomicity in notifiers (with outbox pattern) should be done with a different notifier adapter.
-
 ## 📚 Design
 * The REST API controller and client are generated from the OpenAPI spec at build time.
-* Hexagonal Architecture: domain, ports, and adapters.
-* Use cases are 'one responsibility services'. Start with services, split when they get bigger.
 * `domain` holds business logic (services and/or use cases) and driven ports (interfaces).
 * `domain.model` keeps the structures relevant to the application's domain. The more logic added to
   an entity, the better (it could be easily accessed by many different services, or use cases).
 * `output.{notifiers,repositories}` driven adapters (implementations of driven ports).
 * `input.controllers` driver adapter (adapters without interface).
-* There are no 'input/driver ports', as they don't need to be decoupled from anything they just use
-  the domain (and that's acceptable).
 * Subpackages can be created for different adapter implementations (to isolate their code).
-* Code structure and access rules:
-  - **appointments**: holds the Spring configuration (dependency injection) and contains the
-    starting class for the application.
-  - **appointments.output.{notifiers,repositories}**: contains domain ports' actual implementations.
-    These are implementation details and must not be used directly (except DI and tests).
-  - **appointments.input.controllers**: contains the REST controllers of the application (driver
-    adapter). Classes on this package cannot use any other application layer apart from domain.
-  - **appointments.domain**: contains the business rules. Must not reference implementation details
-    (storage, frameworks, etc.) directly, these features should be accessed by abstract
-    interchangeable interfaces. It's not a problem to reference this package from Controllers or
-    Repositories.
-  - **appointments.domain.model**: holds the business entities. These are the data structures used
-    by the business logic. Follows the same access rules as its parent package.
+* More information about each package rules can be found on their Javadoc documentation.
 
 ## 🎚️ Set up
-* `sdk env install`
+* With SDKMAN: `sdk env install`
+* If SDKMAN is not available, JDK 21+ must be installed.
 
 ## ▶️ Commands
 All commands assume a Unix like OS.
@@ -113,10 +99,11 @@ The most important commands to operate the project are:
 * Build: `./mvnw package`
 * Documentation: `./mvnw site`
 * Run: `./mvnw spring-boot:run`
-* Build image: `./mvnw spring-boot:build-image`
+* Build image: `./mvnw verify` or `./mvnw spring-boot:build-image`
 
 To run or deploy the application:
 
+* Start infrastructure (for running locally): `docker-compose up -d`
 * Run JAR locally: `java -jar target/appointments-0.1.0.jar`
 * Run container: `docker-compose --profile local up`
 
