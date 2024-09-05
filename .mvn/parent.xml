@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+ ! Common settings for `pom.xml`, it could be moved to its own repository to be reused.
+ !-->
 <project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -252,6 +255,49 @@
           <version>0.2.6</version>
         </dependency>
       </dependencies>
+    </profile>
+
+    <profile>
+      <id>pitest</id>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>1.16.3</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>1.2.1</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <timeoutConstant>30000</timeoutConstant>
+              <targetClasses>
+                <param>com.github.jaguililla.appointments.domain.*</param>
+              </targetClasses>
+              <targetTests>
+                <param>com.github.jaguililla.appointments.domain.*</param>
+              </targetTests>
+              <features>
+                <!-- Required to process Java records, generates false positives -->
+                <feature>-frecord</feature>
+              </features>
+              <verbose>true</verbose>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
