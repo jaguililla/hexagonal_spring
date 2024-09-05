@@ -18,8 +18,7 @@ build:
   stage: build
   image: ubuntu:24.04
   rules:
-    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
   cache:
     key: build-cache
     paths:
@@ -37,8 +36,7 @@ publish:
   stage: release
   image: maven:3
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE == "push"
   before_script:
     - apt update
     - apt -y install curl zip unzip
