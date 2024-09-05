@@ -1,0 +1,43 @@
+
+name: Nightly Build
+on:
+  push:
+#  schedule:
+#    - cron: "59 23 * * *"
+
+permissions: read-all
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: SDKMAN Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.sdkman
+          key: "${{ runner.os }}-sdkman-${{ hashFiles('.sdkmanrc') }}"
+          restore-keys: "${{ runner.os }}-sdkman-"
+      - name: Maven Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: "${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}"
+          restore-keys: "${{ runner.os }}-maven-"
+      - name: Install SDKMAN
+        run: curl -s "https://get.sdkman.io?rcupdate=false" | bash
+      - name: Build Application
+        run: |
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk env install
+
+          ./mvnw -P pitest
+      - name: Build Client
+        run: |
+          export CLIENT_PATH='target/generated-sources/openapi'
+          export CONTROLLERS_PATH='com/github/jaguililla/appointments/http/controllers'
+
+          rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
+          mvn -f "${CLIENT_PATH}/pom.xml" clean install
