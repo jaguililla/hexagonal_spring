@@ -19,6 +19,7 @@ build:
   image: ubuntu:24.04
   rules:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "push"
   cache:
     key: build-cache
     paths:
@@ -37,6 +38,7 @@ publish:
   image: maven:3
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "push"
   before_script:
     - apt update
     - apt -y install curl zip unzip
@@ -75,3 +77,21 @@ release:
   release:
     tag_name: ${POM_VERSION}
     description: Release ${POM_VERSION}
+
+nightly:
+  stage: build
+  image: ubuntu:24.04
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  cache:
+    key: build-cache
+    paths:
+      - .m2/repository
+  before_script:
+    - apt update
+    - apt -y install curl zip unzip
+    - curl -s "https://get.sdkman.io?rcupdate=false" | bash
+    - source "$HOME/.sdkman/bin/sdkman-init.sh"
+  script:
+    - sdk env install
+    - ./mvnw -P pitest
