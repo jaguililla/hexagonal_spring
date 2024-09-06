@@ -53,7 +53,7 @@ publish:
     - export IMG_REGISTRY="image.registry=${CI_REGISTRY}/jaguililla/hexagonal_spring"
     - export POM_VERSION="$(mvn help:evaluate -D expression=project.version -q -D forceStdout)"
     - export CI_PUBLISH="spring-boot.build-image.publish=true"
-    - export MAVEN_ARGS="--quiet --batch-mode --settings .mvn/ci_settings.xml"
+    - export MAVEN_ARGS="--quiet --batch-mode --settings .gitlab/ci_settings.xml"
     - ./mvnw -D ${ALT_REPOSITORY} -D ${IMG_REGISTRY} -D ${CI_PUBLISH} deploy
     - rm -rf "${CLIENT_PATH}/src/main/java/${CONTROLLERS_PATH}"
     - mvn -f "${CLIENT_PATH}/pom.xml" -D ${ALT_REPOSITORY} clean deploy
