@@ -1,0 +1,7 @@
+
+
+# Summary in imperative mood [#TaskId] [:Tag] [!!!]
+#
+# [Details. Used to explain what and why vs. how]
+#
+# https://github.com/jaguililla/hexagonal_spring/blob/main/doc/commits.md
