@@ -1,3 +1,7 @@
+#
+# To set up a scheduled pipeline in GitLab:
+#   Repository Home > Build (left menu) > Pipeline schedules > New Schedule
+#
 
 stages:
   - build
