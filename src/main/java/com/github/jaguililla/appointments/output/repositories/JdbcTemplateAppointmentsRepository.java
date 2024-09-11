@@ -14,7 +14,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Stream;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public class JdbcTemplateAppointmentsRepository implements AppointmentsRepository {
 
     private static final Logger LOGGER =
@@ -40,11 +43,11 @@ public class JdbcTemplateAppointmentsRepository implements AppointmentsRepositor
     }
 
     @Override
+    @Transactional
     public boolean insert(final Appointment appointment) {
         requireNonNull(appointment, "appointment cannot be null");
         LOGGER.debug("--> Creating appointment: {}", appointment);
 
-        // TODO Transaction
         final var parameters = Map.of(
             "id", appointment.id(),
             "startTimestamp", appointment.start(),
@@ -66,11 +69,11 @@ public class JdbcTemplateAppointmentsRepository implements AppointmentsRepositor
     }
 
     @Override
+    @Transactional
     public boolean delete(final UUID id) {
         requireNonNull(id, "id cannot be null");
         LOGGER.debug("--> Deleting aid: {}", id);
 
-        // TODO Transaction
         final var parameters = Map.of("id", id);
         final var usersCount =
             template.update("delete from AppointmentsUsers where appointmentId = :id", parameters);

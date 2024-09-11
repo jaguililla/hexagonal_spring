@@ -76,20 +76,6 @@ class ApplicationConfiguration {
     }
 
     @Bean
-    AppointmentsRepository appointmentsStore(final DataSource dataSource) {
-        final var type = JdbcTemplateAppointmentsRepository.class.getSimpleName();
-        LOGGER.info("Creating Appointments Store: {}", type);
-        return new JdbcTemplateAppointmentsRepository(dataSource);
-    }
-
-    @Bean
-    UsersRepository usersStore(final DataSource dataSource) {
-        final var type = JdbcTemplateUsersRepository.class.getSimpleName();
-        LOGGER.info("Creating Users Store: {}", type);
-        return new JdbcTemplateUsersRepository(dataSource);
-    }
-
-    @Bean
     AppointmentsNotifier appointmentsNotifier(final KafkaTemplate<String, String> kafkaTemplate) {
         final var type = KafkaTemplateAppointmentsNotifier.class.getSimpleName();
         LOGGER.info("Creating Appointments Notifier: {}", type);
