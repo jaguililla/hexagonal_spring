@@ -7,12 +7,15 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentRequest;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentResponse;
+import java.time.Duration;
+import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -34,6 +37,8 @@ class ApplicationIT {
     private final TestTemplate client;
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
+    @Autowired
+    private ConsumerFactory<String, String> consumerFactory;
 
     ApplicationIT(@LocalServerPort final int portTest) {
         client = new TestTemplate("http://localhost:" + portTest);
@@ -83,6 +88,13 @@ class ApplicationIT {
 
     @Test
     void appointments_can_be_created_read_and_deleted() {
+        try (var consumer = consumerFactory.createConsumer()) {
+            consumer.subscribe(List.of("appointments"));
+            for (var r : consumer.poll(Duration.ZERO)) {
+
+            }
+        }
+
         client.post("/appointments", new AppointmentRequest()
             .id(UUID.randomUUID())
             .startTimestamp(LocalDateTime.now())

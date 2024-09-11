@@ -69,7 +69,7 @@ Example application to create appointments (REST API). Appointments are stored i
 * No input ports: they don't need to be decoupled, they just use the domain (and that's acceptable).
 
 ## 📖 Architecture
-![Architecture Diagram](doc/architecture.svg)
+![Architecture Diagram](https://raw.githubusercontent.com/jaguililla/hexagonal_spring/main/doc/architecture.svg)
 * **Port**: interface to set a boundary between application logic and implementation details.
 * **Adapter**: port implementation to connect the application domain with the system's context.
 * **Domain**: application logic and model entities.
