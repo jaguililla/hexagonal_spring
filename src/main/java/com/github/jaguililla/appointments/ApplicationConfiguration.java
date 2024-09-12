@@ -24,45 +24,6 @@ class ApplicationConfiguration {
     @Value(value = "${deleteMessage}")
     private String deleteMessage;
 
-//    @Bean
-//    public KafkaAdmin kafkaAdmin() {
-//        return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress));
-//    }
-
-//    @Bean
-//    public NewTopic appointmentsTopic() {
-//        return new NewTopic("appointments", 1, (short) 1);
-//    }
-
-//    @Bean
-//    public ProducerFactory<String, String> producerFactory() {
-//        return new DefaultKafkaProducerFactory<>(Map.of(
-//            ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress,
-//            ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
-//            ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class
-//        ));
-//    }
-
-//    @Bean
-//    public ConsumerFactory<String, String> consumerFactory() {
-//        return new DefaultKafkaConsumerFactory<>(Map.of(
-//            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress,
-//            ConsumerConfig.GROUP_ID_CONFIG, "group",
-//            ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
-//            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class
-//        ));
-//    }
-
-    @Bean
-    public KafkaTemplate<String, String> kafkaTemplate(
-        final ProducerFactory<String, String> producerFactory,
-        final ConsumerFactory<String, String> consumerFactory
-    ) {
-        final var kafkaTemplate = new KafkaTemplate<>(producerFactory);
-        kafkaTemplate.setConsumerFactory(consumerFactory);
-        return kafkaTemplate;
-    }
-
     @Bean
     AppointmentsNotifier appointmentsNotifier(final KafkaTemplate<String, String> kafkaTemplate) {
         final var type = KafkaTemplateAppointmentsNotifier.class.getSimpleName();
@@ -78,6 +39,7 @@ class ApplicationConfiguration {
         final UsersRepository usersRepository,
         final AppointmentsNotifier appointmentsNotifier
     ) {
-        return new AppointmentsService(appointmentsRepository, usersRepository, appointmentsNotifier);
+        return
+            new AppointmentsService(appointmentsRepository, usersRepository, appointmentsNotifier);
     }
 }
