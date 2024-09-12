@@ -310,9 +310,7 @@
             <artifactId>maven-checkstyle-plugin</artifactId>
             <version>3.5.0</version>
             <configuration>
-              <encoding>UTF-8</encoding>
               <failsOnError>true</failsOnError>
-              <linkXRef>false</linkXRef>
             </configuration>
             <executions>
               <execution>

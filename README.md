@@ -41,6 +41,7 @@ Example application to create appointments (REST API). Appointments are stored i
 ## 🧪 Test
 * ArchUnit (preferred over Java modules: it allows naming checks, etc.)
 * Testcontainers (used to provide a test instance of Postgres and Kafka)
+* Pitest (mutation testing, nightly)
 
 ## ⚒️ Development
 * SDKMAN (allows to use simpler runners on CI)
@@ -68,14 +69,14 @@ Example application to create appointments (REST API). Appointments are stored i
 * No input ports: they don't need to be decoupled, they just use the domain (and that's acceptable).
 
 ## 📖 Architecture
-![Architecture Diagram](doc/architecture.svg)
-* **Port:** interface to set a boundary between application logic and implementation details.
-* **Adapter:**: port implementation to connect the application domain with the system's context.
-* **Domain:**: application logic and model entities.
-* **Service:**: implement operations with a common topic altogether. Usually calls driven ports.
-* **UseCase/Case:**: single operation service (isolate features). They can coexist with services.
-* **Output/Driven Adapter:**: implementation of ports called from the domain.
-* **Input/Driver Adapter:**: commands that call application logic (don't require a port).
+![Architecture Diagram](https://raw.githubusercontent.com/jaguililla/hexagonal_spring/main/doc/architecture.svg)
+* **Port**: interface to set a boundary between application logic and implementation details.
+* **Adapter**: port implementation to connect the application domain with the system's context.
+* **Domain**: application logic and model entities.
+* **Service**: implement operations with a common topic altogether. Usually calls driven ports.
+* **UseCase/Case**: single operation service (isolate features). They can coexist with services.
+* **Output/Driven Adapter**: implementation of ports called from the domain.
+* **Input/Driver Adapter**: commands that call application logic (don't require a port).
 
 ## 📚 Design
 * The REST API controller and client are generated from the OpenAPI spec at build time.

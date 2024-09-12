@@ -15,8 +15,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
 
-public final class JdbcTemplateUsersRepository implements UsersRepository {
+@Repository
+public class JdbcTemplateUsersRepository implements UsersRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcTemplateUsersRepository.class);
 
