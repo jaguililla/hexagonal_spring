@@ -1,19 +1,21 @@
 package com.github.jaguililla.appointments;
 
-import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentRequest;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentResponse;
+import java.time.Duration;
+import java.util.List;
+import org.apache.kafka.common.TopicPartition;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -33,7 +35,7 @@ class ApplicationIT {
 
     private final TestTemplate client;
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private ConsumerFactory<String, String> consumerFactory;
 
     ApplicationIT(@LocalServerPort final int portTest) {
         client = new TestTemplate("http://localhost:" + portTest);
@@ -90,15 +92,22 @@ class ApplicationIT {
         );
         var response = client.getResponseBody(AppointmentResponse.class);
         assertEquals(200, client.getResponseStatus().value());
-        var creationMessage = requireNonNull(kafkaTemplate.receive("appointments", 0, 0));
-        assertTrue(creationMessage.value().startsWith("Appointment created at"));
+        assertTrue(getLastMessage().startsWith("Appointment created at"));
         client.get("/appointments/" + response.getId());
         assertEquals(200, client.getResponseStatus().value());
         client.delete("/appointments/" + response.getId());
         assertEquals(200, client.getResponseStatus().value());
-        var deletionMessage = requireNonNull(kafkaTemplate.receive("appointments", 0, 1));
-        assertTrue(deletionMessage.value().startsWith("Appointment deleted at"));
+        assertTrue(getLastMessage().startsWith("Appointment deleted at"));
         client.delete("/appointments/" + response.getId());
         assertEquals(404, client.getResponseStatus().value());
+    }
+
+    private String getLastMessage() {
+        try (var consumer = consumerFactory.createConsumer()) {
+            consumer.assign(List.of(new TopicPartition("appointments", 0)));
+            var record = consumer.poll(Duration.ofMillis(250)).iterator().next().value();
+            consumer.commitSync();
+            return record;
+        }
     }
 }
