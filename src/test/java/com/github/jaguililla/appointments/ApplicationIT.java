@@ -31,7 +31,7 @@ import java.util.UUID;
 class ApplicationIT {
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
-    static KafkaContainer kafka = new KafkaContainer("apache/kafka:3.7.0");
+    static KafkaContainer kafka = new KafkaContainer("apache/kafka:3.8.0");
 
     private final TestTemplate client;
     @Autowired
