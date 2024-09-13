@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<head>
+  <meta lang="en">
+  <meta charset="UTF-8">
+
+  <title>Appointments</title>
+
+  <link rel="stylesheet" href="simple.css">
+  <style>
+    :root {
+      --body-font-size: 1rem;
+      --body-line-height: 1.2;
+    }
+  </style>
+</head>
+
+<h1>Appointments</h1>
+
+<h2>Open</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Order</th>
+    </tr>
+  </thead>
+  <tbody id="appointments">
+    <tr>
+      <td>a</td>
+      <td>b</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>New</h2>
+<form>
+  <label for="title">Title</label>
+  <input id="title" type="text">
+  <label for="order">Order</label>
+  <input id="order" type="number">
+</form>
+<button onclick="add()">Add</button>
+
+<script>
+  const http = new XMLHttpRequest();
+
+  function httpSend(method, url, body, callback) {
+    http.open(method, url);
+    http.setRequestHeader('Content-type', 'application/json');
+    http.send(JSON.stringify(body));
+    http.onreadystatechange = callback;
+  }
+
+  function httpGet(url, body, callback) {
+    httpSend('GET', url, body, callback);
+  }
+
+  function httpPost(url, body, callback) {
+    httpSend('POST', url, body, callback);
+  }
+
+  function add() {
+    let body = { title: 'a', order: 0 };
+    httpPost('/appointments', body, () => console.log(http.responseText));
+  }
+
+  function main() {
+    httpGet('/appointments', null, () => console.log(http.responseText));
+  }
+
+  main();
+</script>
