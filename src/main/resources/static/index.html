@@ -15,9 +15,17 @@
   </style>
 </head>
 
-<h1>Appointments</h1>
+<header>
+  <h1>Appointments</h1>
+  <p>Example task application</p>
 
-<h2>Open</h2>
+  <nav>
+    <a href="/" class="current">Appointments</a>
+    <a href="/">Users</a>
+  </nav>
+</header>
+
+<h3>Open</h3>
 <table>
   <thead>
     <tr>
@@ -26,16 +34,10 @@
       <th>Order</th>
     </tr>
   </thead>
-  <tbody id="appointments">
-    <tr>
-      <td>a</td>
-      <td>b</td>
-      <td>0</td>
-    </tr>
-  </tbody>
+  <tbody id="appointments"></tbody>
 </table>
 
-<h2>New</h2>
+<h3>New</h3>
 <form>
   <label for="title">Title</label>
   <input id="title" type="text">
@@ -44,32 +46,12 @@
 </form>
 <button onclick="add()">Add</button>
 
-<script>
-  const http = new XMLHttpRequest();
+<template id="appointmentRow">
+  <tr>
+    <td>title</td>
+    <td>0</td>
+    <td><input type="checkbox" checked></td>
+  </tr>
+</template>
 
-  function httpSend(method, url, body, callback) {
-    http.open(method, url);
-    http.setRequestHeader('Content-type', 'application/json');
-    http.send(JSON.stringify(body));
-    http.onreadystatechange = callback;
-  }
-
-  function httpGet(url, body, callback) {
-    httpSend('GET', url, body, callback);
-  }
-
-  function httpPost(url, body, callback) {
-    httpSend('POST', url, body, callback);
-  }
-
-  function add() {
-    let body = { title: 'a', order: 0 };
-    httpPost('/appointments', body, () => console.log(http.responseText));
-  }
-
-  function main() {
-    httpGet('/appointments', null, () => console.log(http.responseText));
-  }
-
-  main();
-</script>
+<script src="main.js"></script>

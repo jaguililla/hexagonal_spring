@@ -9,8 +9,12 @@
   --body-font-size: 1.15rem;
   --footer-font-size: 0.9rem;
   --nav-font-size: 1rem;
+  --aside-font-size: 1rem;
+  --figcaption-font-size: 0.9rem;
+  --cite-font-size: 0.9rem;
 
   --body-line-height: 1.5;
+  --h3-line-height: 1.1;
 
   --standard-border-radius: 5px;
 
@@ -326,7 +330,7 @@ aside, details, pre, progress {
 }
 
 aside {
-  font-size: 1rem;
+  font-size: var(--aside-font-size);
   width: 30%;
   padding: 0 15px;
   margin-inline-start: 15px;
