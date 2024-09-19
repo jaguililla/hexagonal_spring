@@ -6,15 +6,19 @@
     "Noto Sans", "Segoe UI", Arial, Helvetica, "Helvetica Neue", sans-serif;
   --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 
+  --small-font-size: 0.9rem;
+
   --body-font-size: 1.15rem;
-  --footer-font-size: 0.9rem;
   --nav-font-size: 1rem;
   --aside-font-size: 1rem;
-  --figcaption-font-size: 0.9rem;
-  --cite-font-size: 0.9rem;
+  --footer-font-size: var(--small-font-size);
+  --figcaption-font-size: var(--small-font-size);
+  --cite-font-size: var(--small-font-size);
 
+  --nav-line-height: 2;
   --body-line-height: 1.5;
-  --h3-line-height: 1.1;
+  --h123-line-height: 1.1;
+  --nav-mobile-line-height: 1;
 
   --standard-border-radius: 5px;
 
@@ -165,7 +169,13 @@ p {
 }
 
 /* Prevent long strings from overflowing container */
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
 }
 
@@ -173,7 +183,7 @@ p, h1, h2, h3, h4, h5, h6 {
 h1,
 h2,
 h3 {
-  line-height: 1.1;
+  line-height: var(--h123-line-height);
 }
 
 /* Reduce header size on mobile */
@@ -267,7 +277,7 @@ input:enabled:focus-visible:where(
 /* Format navigation */
 header > nav {
   font-size: var(--nav-font-size);
-  line-height: 2;
+  line-height: var(--nav-line-height);
   padding: 1rem 0 0 0;
 }
 
@@ -317,12 +327,15 @@ header > nav a[aria-current="true"] {
     border: none;
     padding: 0;
     text-decoration: underline;
-    line-height: 1;
+    line-height: var(--nav-mobile-line-height);
   }
 }
 
 /* Consolidate box styling */
-aside, details, pre, progress {
+aside,
+details,
+pre,
+progress {
   background-color: var(--accent-bg);
   border: 1px solid var(--border);
   border-radius: var(--standard-border-radius);
@@ -350,7 +363,9 @@ aside {
   }
 }
 
-article, fieldset, dialog {
+article,
+fieldset,
+dialog {
   border: 1px solid var(--border);
   padding: 1rem;
   border-radius: var(--standard-border-radius);
@@ -601,7 +616,7 @@ figure > picture > img {
 
 figcaption {
   text-align: center;
-  font-size: 0.9rem;
+  font-size: var(--figcaption-font-size);
   color: var(--text-light);
   margin-block: 1rem;
 }
@@ -617,7 +632,7 @@ blockquote {
 }
 
 cite {
-  font-size: 0.9rem;
+  font-size: var(--cite-font-size);
   color: var(--text-light);
   font-style: normal;
 }
@@ -710,7 +725,8 @@ dialog::backdrop {
 
 /* Superscript & Subscript */
 /* Prevent scripts from affecting line-height. */
-sup, sub {
+sup,
+sub {
   vertical-align: baseline;
   position: relative;
 }
