@@ -28,7 +28,9 @@
     <client.package>${openapi.package}.client</client.package>
     <spring.server>undertow</spring.server>
     <openapi.integration>ui</openapi.integration>
-    <release.goal>deploy</release.goal>
+    <gatling.simulationClass>
+      com.github.jaguililla.appointments.GatlingSimulation
+    </gatling.simulationClass>
   </properties>
 
   <distributionManagement>

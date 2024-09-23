@@ -34,7 +34,6 @@
     <client.package>${openapi.package}.client</client.package>
     <image.name>${project.groupId}/${project.artifactId}</image.name>
     <image.registry>docker.io</image.registry>
-    <release.goal>verify</release.goal> <!-- verify | deploy -->
     <spring.server>undertow</spring.server> <!-- undertow | jetty -->
     <openapi.integration>ui</openapi.integration> <!-- ui | api -->
 
@@ -44,6 +43,8 @@
 
     <jacoco.version>0.8.12</jacoco.version>
     <archunit.version>1.3.0</archunit.version>
+    <gatling.version>3.12.0</gatling.version>
+    <gatling.maven.version>4.9.6</gatling.maven.version>
   </properties>
 
   <dependencies>
@@ -101,6 +102,12 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>kafka</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.gatling.highcharts</groupId>
+      <artifactId>gatling-charts-highcharts</artifactId>
+      <version>${gatling.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -236,6 +243,12 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>io.gatling</groupId>
+        <artifactId>gatling-maven-plugin</artifactId>
+        <version>${gatling.maven.version}</version>
       </plugin>
     </plugins>
   </build>
