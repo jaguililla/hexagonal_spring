@@ -11,7 +11,10 @@ import java.util.List;
 import org.apache.kafka.common.TopicPartition;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -28,6 +31,7 @@ import java.util.UUID;
     classes = {Application.class},
     webEnvironment = RANDOM_PORT
 )
+@TestMethodOrder(OrderAnnotation.class)
 class ApplicationIT {
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
@@ -61,6 +65,7 @@ class ApplicationIT {
     }
 
     @Test
+    @Order(1)
     void specification_requests_work_as_expected() {
         client.get("/v3/api-docs");
         assertTrue(client.getResponseBody().contains("openapi"));
@@ -68,6 +73,7 @@ class ApplicationIT {
     }
 
     @Test
+    @Order(2)
     void actuator_requests_work_as_expected() {
         client.get("/actuator/health");
         assertTrue(client.getResponseBody().contains("UP"));
@@ -75,6 +81,7 @@ class ApplicationIT {
     }
 
     @Test
+    @Order(3)
     void existing_appointments_can_be_fetched() {
         client.get("/appointments");
         var response = client.getResponseBody(AppointmentResponse[].class);
@@ -84,6 +91,7 @@ class ApplicationIT {
     }
 
     @Test
+    @Order(4)
     void appointments_can_be_created_read_and_deleted() {
         client.post("/appointments", new AppointmentRequest()
             .id(UUID.randomUUID())
