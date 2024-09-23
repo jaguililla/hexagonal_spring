@@ -112,10 +112,14 @@ class ApplicationIT {
 
     private String getLastMessage() {
         try (var consumer = consumerFactory.createConsumer()) {
+            Thread.sleep(100);
             consumer.assign(List.of(new TopicPartition("appointments", 0)));
             var record = consumer.poll(Duration.ofMillis(250)).iterator().next().value();
             consumer.commitSync();
             return record;
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
