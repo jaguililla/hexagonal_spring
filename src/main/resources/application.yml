@@ -13,6 +13,7 @@ management.endpoints.jmx.exposure.exclude: "*"
 
 spring:
   threads.virtual.enabled: true
+
   datasource:
     url: ${JDBC_URL:jdbc:postgresql://localhost:15432/local}
     username: ${JDBC_USERNAME:root}

@@ -16,7 +16,7 @@
   </parent>
 
   <artifactId>appointments</artifactId>
-  <version>0.3.7</version>
+  <version>0.3.8</version>
 
   <name>Appointments</name>
   <description>Application to create appointments (REST API)</description>
@@ -28,7 +28,9 @@
     <client.package>${openapi.package}.client</client.package>
     <spring.server>undertow</spring.server>
     <openapi.integration>ui</openapi.integration>
-    <release.goal>deploy</release.goal>
+    <gatling.simulationClass>
+      com.github.jaguililla.appointments.GatlingSimulation
+    </gatling.simulationClass>
   </properties>
 
   <distributionManagement>

@@ -16,7 +16,7 @@ services:
       - "15432:5432"
 
   kafka:
-    image: docker.io/apache/kafka:3.7.0
+    image: docker.io/apache/kafka-native:3.8.0
     environment:
       CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
       KAFKA_NODE_ID: 1
