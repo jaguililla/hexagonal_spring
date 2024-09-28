@@ -8,12 +8,19 @@ import io.gatling.javaapi.core.*;
 public class GatlingSimulation extends Simulation {
 
     private ChainBuilder appointmentsCrud = exec(
-        http("Create").post("/appointments").check(status().is(201)),
+        http("Create")
+            .post("/appointments")
+            .body(StringBody(""))
+            .check(status().is(201))
+            .check(jmesPath("id").saveAs("id")),
         pause(1),
-        http("Read").get("/appointments").check(status().is(200)),
+        http("Read")
+            .get("/appointments/#{id}")
+            .check(status().is(200)),
         pause(1),
-        http("Delete").delete("/appointments").check(status().is(200)),
-        pause(1)
+        http("Delete")
+            .delete("/appointments/#{id}")
+            .check(status().is(200))
     );
 
     {

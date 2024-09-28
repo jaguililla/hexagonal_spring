@@ -19,7 +19,7 @@ paths:
             schema:
               $ref: 'schemas.yml#/components/schemas/UserRequest'
       responses:
-        "200":
+        "201":
           description: OK
           content:
             application/json:
@@ -36,7 +36,7 @@ paths:
             schema:
               $ref: 'schemas.yml#/components/schemas/AppointmentRequest'
       responses:
-        "200":
+        "201":
           description: OK
           content:
             application/json:

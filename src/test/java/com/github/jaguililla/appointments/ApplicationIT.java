@@ -99,7 +99,7 @@ class ApplicationIT {
             .endTimestamp(LocalDateTime.now())
         );
         var response = client.getResponseBody(AppointmentResponse.class);
-        assertEquals(200, client.getResponseStatus().value());
+        assertEquals(201, client.getResponseStatus().value());
         assertTrue(getLastMessage().startsWith("Appointment created at"));
         client.get("/appointments/" + response.getId());
         assertEquals(200, client.getResponseStatus().value());

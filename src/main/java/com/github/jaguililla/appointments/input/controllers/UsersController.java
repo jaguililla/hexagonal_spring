@@ -30,6 +30,6 @@ final class UsersController extends BaseController implements UsersApi {
         final var createdUser = appointmentsService.create(user);
 
         final var responseUser = UsersMapper.userResponse(createdUser);
-        return ResponseEntity.ofNullable(responseUser);
+        return ResponseEntity.status(201).body(responseUser);
     }
 }

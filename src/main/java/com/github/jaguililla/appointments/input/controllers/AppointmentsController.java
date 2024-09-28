@@ -36,7 +36,7 @@ final class AppointmentsController extends BaseController implements Appointment
         final var createdAppointment = appointmentsService.create(appointment, users);
 
         final var responseAppointment = AppointmentsMapper.appointmentResponse(createdAppointment);
-        return ResponseEntity.ofNullable(responseAppointment);
+        return ResponseEntity.status(201).body(responseAppointment);
     }
 
     @Override
