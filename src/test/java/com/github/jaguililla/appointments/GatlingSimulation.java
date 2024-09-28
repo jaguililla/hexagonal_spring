@@ -10,7 +10,14 @@ public class GatlingSimulation extends Simulation {
     private ChainBuilder appointmentsCrud = exec(
         http("Create")
             .post("/appointments")
-            .body(StringBody(""))
+            .body(StringBody("""
+                {
+                  "users": [],
+                  "startTimestamp": "2024-09-28T21:28:00.419367341",
+                  "endTimestamp": "2024-09-28T21:28:00.4193957"
+                }
+                """
+            ))
             .check(status().is(201))
             .check(jmesPath("id").saveAs("id")),
         pause(1),
