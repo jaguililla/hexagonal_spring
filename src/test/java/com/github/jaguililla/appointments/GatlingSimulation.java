@@ -2,11 +2,11 @@ package com.github.jaguililla.appointments;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
-import static java.util.UUID.randomUUID;
 
 import io.gatling.javaapi.core.*;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class GatlingSimulation extends Simulation {
@@ -38,12 +38,13 @@ public class GatlingSimulation extends Simulation {
     {
         var baseUrl = "http://localhost:18080";
         var httpProtocol = http.baseUrl(baseUrl);
-        var users = scenario("Appointments")
-            .feed(Stream
-                .<Map<String, Object>>generate(() -> Map.of("id", randomUUID().toString()))
-                .iterator()
-            )
-            .exec(appointmentsCrud);
+        var feeder = Stream
+            .generate(UUID::randomUUID)
+            .map(UUID::toString)
+            .<Map<String, Object>>map(it -> Map.of("id", it))
+            .iterator();
+
+        var users = scenario("Appointments").feed(feeder).exec(appointmentsCrud);
 
         setUp(users.injectOpen(rampUsers(10).during(10))).protocols(httpProtocol);
     }
