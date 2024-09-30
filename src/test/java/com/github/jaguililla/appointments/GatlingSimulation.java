@@ -5,6 +5,10 @@ import static io.gatling.javaapi.http.HttpDsl.*;
 
 import io.gatling.javaapi.core.*;
 
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Stream;
+
 public class GatlingSimulation extends Simulation {
 
     private ChainBuilder appointmentsList = exec(
@@ -19,8 +23,9 @@ public class GatlingSimulation extends Simulation {
             .header("Content-Type", "application/json")
             .body(StringBody("""
                 {
-                  "startTimestamp": "2024-09-28T21:28:00.419367341",
-                  "endTimestamp": "2024-09-28T21:28:00.4193957"
+                  "id": "#{id}",
+                  "startTimestamp": "2024-09-28T21:28:00",
+                  "endTimestamp": "2024-09-28T21:28:00"
                 }
                 """
             ))
@@ -39,6 +44,13 @@ public class GatlingSimulation extends Simulation {
     {
         var baseUrl = "http://localhost:18080";
         var httpProtocol = http.baseUrl(baseUrl);
+        var feeder = Stream
+            .generate(UUID::randomUUID)
+            .map(UUID::toString)
+            .<Map<String, Object>>map(it -> Map.of("id", it))
+            .iterator();
+
+        var users = scenario("Appointments").feed(feeder).exec(appointmentsCrud);
         var crud = scenario("Appointments CRUD").exec(appointmentsCrud);
         var list = scenario("Appointments List").exec(appointmentsList);
 
