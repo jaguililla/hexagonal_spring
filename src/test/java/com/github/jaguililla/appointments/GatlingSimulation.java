@@ -7,12 +7,18 @@ import io.gatling.javaapi.core.*;
 
 public class GatlingSimulation extends Simulation {
 
+    private ChainBuilder appointmentsList = exec(
+        http("List")
+            .get("/appointments")
+            .check(status().is(200))
+    );
+
     private ChainBuilder appointmentsCrud = exec(
         http("Create")
             .post("/appointments")
+            .header("Content-Type", "application/json")
             .body(StringBody("""
                 {
-                  "users": [],
                   "startTimestamp": "2024-09-28T21:28:00.419367341",
                   "endTimestamp": "2024-09-28T21:28:00.4193957"
                 }
@@ -33,8 +39,13 @@ public class GatlingSimulation extends Simulation {
     {
         var baseUrl = "http://localhost:18080";
         var httpProtocol = http.baseUrl(baseUrl);
-        var users = scenario("Appointments").exec(appointmentsCrud);
+        var crud = scenario("Appointments CRUD").exec(appointmentsCrud);
+        var list = scenario("Appointments List").exec(appointmentsList);
 
-        setUp(users.injectOpen(rampUsers(10).during(10))).protocols(httpProtocol);
+        setUp(
+            crud.injectOpen(rampUsers(10).during(10)),
+            list.injectOpen(rampUsers(10).during(10))
+        )
+        .protocols(httpProtocol);
     }
 }
