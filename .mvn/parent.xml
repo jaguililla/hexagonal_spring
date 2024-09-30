@@ -244,12 +244,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <plugin>
-        <groupId>io.gatling</groupId>
-        <artifactId>gatling-maven-plugin</artifactId>
-        <version>${gatling.maven.version}</version>
-      </plugin>
     </plugins>
   </build>
 
@@ -354,6 +348,70 @@
           </plugin>
         </plugins>
       </reporting>
+    </profile>
+
+    <profile>
+      <id>gatling</id>
+
+      <build>
+        <defaultGoal>post-integration-test</defaultGoal>
+
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.4.1</version>
+            <executions>
+              <execution>
+                <id>docker-up</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>pre-integration-test</phase>
+                <configuration>
+                  <executable>docker</executable>
+                  <arguments>
+                    <argument>compose</argument>
+                    <argument>--profile=local</argument>
+                    <argument>up</argument>
+                    <argument>-d</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>docker-down</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>post-integration-test</phase>
+                <configuration>
+                  <executable>docker</executable>
+                  <arguments>
+                    <argument>compose</argument>
+                    <argument>--profile=local</argument>
+                    <argument>rm</argument>
+                    <argument>-sfv</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>io.gatling</groupId>
+            <artifactId>gatling-maven-plugin</artifactId>
+            <version>${gatling.maven.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <phase>integration-test</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

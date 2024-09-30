@@ -2,6 +2,9 @@ package com.github.jaguililla.appointments;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
+import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
+import static java.lang.System.getProperty;
 
 import io.gatling.javaapi.core.*;
 
@@ -11,13 +14,18 @@ import java.util.stream.Stream;
 
 public class GatlingSimulation extends Simulation {
 
-    private ChainBuilder appointmentsList = exec(
+    private static final long SCENARIO_SECONDS = parseLong(getProperty("scenario.seconds", "30"));
+    private static final int MAX_USERS = parseInt(getProperty("max.users", "20"));
+    private static final int USERS_RAMP_SECONDS = parseInt(getProperty("users.ramp.seconds", "5"));
+    private static final String BASE_URL = getProperty("base.url", "http://localhost:18080");
+
+    private final ChainBuilder appointmentsList = during(SCENARIO_SECONDS).on(
         http("List")
             .get("/appointments")
             .check(status().is(200))
     );
 
-    private ChainBuilder appointmentsCrud = exec(
+    private final ChainBuilder appointmentsCrud = during(SCENARIO_SECONDS).on(
         http("Create")
             .post("/appointments")
             .header("Content-Type", "application/json")
@@ -31,32 +39,28 @@ public class GatlingSimulation extends Simulation {
             ))
             .check(status().is(201))
             .check(jmesPath("id").saveAs("id")),
-        pause(1),
         http("Read")
             .get("/appointments/#{id}")
             .check(status().is(200)),
-        pause(1),
         http("Delete")
             .delete("/appointments/#{id}")
             .check(status().is(200))
     );
 
     {
-        var baseUrl = "http://localhost:18080";
-        var httpProtocol = http.baseUrl(baseUrl);
+        var httpProtocol = http.baseUrl(BASE_URL);
         var feeder = Stream
             .generate(UUID::randomUUID)
             .map(UUID::toString)
             .<Map<String, Object>>map(it -> Map.of("id", it))
             .iterator();
 
-        var users = scenario("Appointments").feed(feeder).exec(appointmentsCrud);
-        var crud = scenario("Appointments CRUD").exec(appointmentsCrud);
+        var crud = scenario("Appointments CRUD").feed(feeder).exec(appointmentsCrud);
         var list = scenario("Appointments List").exec(appointmentsList);
 
         setUp(
-            crud.injectOpen(rampUsers(10).during(10)),
-            list.injectOpen(rampUsers(10).during(10))
+            crud.injectOpen(rampUsers(MAX_USERS).during(USERS_RAMP_SECONDS)),
+            list.injectOpen(rampUsers(MAX_USERS).during(USERS_RAMP_SECONDS))
         )
         .protocols(httpProtocol);
     }

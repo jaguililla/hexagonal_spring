@@ -98,3 +98,4 @@ nightly:
     - sdk env install
     # TODO Enable ITs when nightly tests are fixed
     - ./mvnw -P pitest -D skipITs
+    - ./mvnw -P gatling -D skipITs
