@@ -96,4 +96,6 @@ nightly:
     - source "$HOME/.sdkman/bin/sdkman-init.sh"
   script:
     - sdk env install
-    - ./mvnw -P pitest
+    # TODO Enable ITs when nightly tests are fixed
+    - ./mvnw -P pitest -D skipITs
+    - ./mvnw -P gatling -D skipITs

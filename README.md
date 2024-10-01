@@ -125,3 +125,15 @@ The verification requests can be executed with: `src/test/resources/requests.sh`
 `PORT=9090 src/test/resources/requests.sh` if you want to run them to a different port.
 
 The health check endpoint is: http://localhost:18080/actuator/health
+
+### Stress Testing (Gatling)
+[Gatling settings] can be overridden creating a `gatling.conf` file at the test resources. The
+configuration options and their default values can be checked [here][gatlingDefaults].
+
+Those parameters can also be overwritten by system properties from the command line. I.e.:
+`-D gatling.core.encoding=utf-8`
+
+To run the Gatling test, execute `./mvnw gatling:test` at the shell.
+
+[Gatling settings]: https://docs.gatling.io/reference/script/core/configuration
+[gatlingDefaults]: https://github.com/gatling/gatling/blob/main/gatling-core/src/main/resources/gatling-defaults.conf

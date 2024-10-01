@@ -27,12 +27,18 @@ jobs:
           restore-keys: "${{ runner.os }}-maven-"
       - name: Install SDKMAN
         run: curl -s "https://get.sdkman.io?rcupdate=false" | bash
-      - name: Build Application
+      - name: Mutation Test Application
         run: |
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk env install
 
           ./mvnw -P pitest
+      - name: Load Test Application
+        run: |
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk env install
+
+          ./mvnw -P gatling
       - name: Build Client
         run: |
           export CLIENT_PATH='target/generated-sources/openapi'

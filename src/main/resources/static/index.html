@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+  <meta lang="en">
+  <meta charset="UTF-8">
+
+  <title>Appointments</title>
+
+  <link rel="stylesheet" href="simple.css">
+  <style>
+    :root {
+      --body-font-size: 1rem;
+      --body-line-height: 1.2;
+    }
+  </style>
+</head>
+
+<header>
+  <h1>Appointments</h1>
+  <p>Example task application</p>
+
+  <nav>
+    <a href="/" class="current">Appointments</a>
+    <a href="/">Users</a>
+  </nav>
+</header>
+
+<h3>Open</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Order</th>
+    </tr>
+  </thead>
+  <tbody id="appointments"></tbody>
+</table>
+
+<h3>New</h3>
+<form>
+  <label for="title">Title</label>
+  <input id="title" type="text">
+  <label for="order">Order</label>
+  <input id="order" type="number">
+</form>
+<button onclick="add()">Add</button>
+
+<template id="appointmentRow">
+  <tr>
+    <td>title</td>
+    <td>0</td>
+    <td><input type="checkbox" checked></td>
+  </tr>
+</template>
+
+<script src="main.js"></script>
