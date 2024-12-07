@@ -14,7 +14,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.3.4</version>
+    <version>3.4.0</version>
     <relativePath/>
   </parent>
 
@@ -127,42 +127,13 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <docker>
-            <publishRegistry>
-              <username>${env.REGISTRY_USERNAME}</username>
-              <password>${env.REGISTRY_PASSWORD}</password>
-            </publishRegistry>
-          </docker>
-          <image>
-            <name>${image.registry}/${image.name}:${project.version}</name>
-            <tags>
-              <tag>${image.registry}/${image.name}:latest</tag>
-            </tags>
-            <env>
-              <JAVA_TOOL_OPTIONS>
-                -XX:+AlwaysPreTouch -XX:+UseParallelGC -XX:+UseNUMA
-              </JAVA_TOOL_OPTIONS>
-              <BPL_SPRING_AOT_ENABLED>true</BPL_SPRING_AOT_ENABLED>
-              <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
-              <BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
-            </env>
-          </image>
-        </configuration>
-        <executions>
-          <execution>
-            <id>image</id>
-            <goals>
-              <goal>build-image</goal>
-            </goals>
-            <phase>verify</phase>
-          </execution>
-        </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
       </plugin>
+
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -415,6 +386,49 @@
                   <goal>test</goal>
                 </goals>
                 <phase>integration-test</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>buildpack</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <docker>
+                <publishRegistry>
+                  <username>${env.REGISTRY_USERNAME}</username>
+                  <password>${env.REGISTRY_PASSWORD}</password>
+                </publishRegistry>
+              </docker>
+              <image>
+                <name>${image.registry}/${image.name}:${project.version}</name>
+                <tags>
+                  <tag>${image.registry}/${image.name}:latest</tag>
+                </tags>
+                <env>
+                  <JAVA_TOOL_OPTIONS>
+                    -XX:+AlwaysPreTouch -XX:+UseParallelGC -XX:+UseNUMA
+                  </JAVA_TOOL_OPTIONS>
+                  <BPL_SPRING_AOT_ENABLED>true</BPL_SPRING_AOT_ENABLED>
+                  <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
+                  <BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
+                </env>
+              </image>
+            </configuration>
+            <executions>
+              <execution>
+                <id>image</id>
+                <goals>
+                  <goal>build-image</goal>
+                </goals>
+                <phase>verify</phase>
               </execution>
             </executions>
           </plugin>
