@@ -133,7 +133,7 @@ configuration options and their default values can be checked [here][gatlingDefa
 Those parameters can also be overwritten by system properties from the command line. I.e.:
 `-D gatling.core.encoding=utf-8`
 
-To run the Gatling test, execute `./mvnw gatling:test` at the shell.
+To run the Gatling test, execute `./mvnw -P gatling` at the shell.
 
 [Gatling settings]: https://docs.gatling.io/reference/script/core/configuration
 [gatlingDefaults]: https://github.com/gatling/gatling/blob/main/gatling-core/src/main/resources/gatling-defaults.conf
