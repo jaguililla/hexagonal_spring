@@ -11,9 +11,9 @@ public class ArchTest {
     private static final String APPLICATION_PACKAGE = ArchTest.class.getPackageName();
     private static final String DOMAIN_PACKAGE = APPLICATION_PACKAGE + ".domain";
     private static final String DOMAIN_MODEL_PACKAGE = DOMAIN_PACKAGE + ".model";
-    private static final String STORES_PACKAGE = APPLICATION_PACKAGE + ".output.repositories..";
-    private static final String NOTIFIERS_PACKAGE = APPLICATION_PACKAGE + ".output.notifiers..";
-    private static final String CONTROLLERS_PACKAGE = APPLICATION_PACKAGE + ".input.controllers..";
+    private static final String STORES_PACKAGE = APPLICATION_PACKAGE + ".repositories..";
+    private static final String NOTIFIERS_PACKAGE = APPLICATION_PACKAGE + ".notifiers..";
+    private static final String CONTROLLERS_PACKAGE = APPLICATION_PACKAGE + ".controllers..";
 
     private static final String GENERATED_PACKAGES = APPLICATION_PACKAGE + ".http.controllers..";
 

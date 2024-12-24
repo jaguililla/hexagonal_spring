@@ -3,4 +3,4 @@
  * moved to their own subpackage. These are implementation details and must not be used directly
  * (except DI and tests).
  */
-package com.github.jaguililla.appointments.output.notifiers;
+package com.github.jaguililla.appointments.notifiers;

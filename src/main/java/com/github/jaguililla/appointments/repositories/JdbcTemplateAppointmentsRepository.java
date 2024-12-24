@@ -1,4 +1,4 @@
-package com.github.jaguililla.appointments.output.repositories;
+package com.github.jaguililla.appointments.repositories;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;

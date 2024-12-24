@@ -1,4 +1,4 @@
-package com.github.jaguililla.appointments.input.controllers;
+package com.github.jaguililla.appointments.controllers;
 
 import com.github.jaguililla.appointments.domain.model.User;
 import com.github.jaguililla.appointments.http.controllers.messages.UserRequest;

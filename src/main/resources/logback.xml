@@ -6,7 +6,7 @@
 <configuration>
   <property
     name="pattern"
-    value="%gray(%d{HH:mm:ss.SSS}) %highlight(%-5p) %magenta([%-15.15t]) %cyan(%-30c{30}) | %m%n"/>
+    value="%gray(%d{HH:mm:ss.SSS}) %highlight(%-5p) %magenta([%-15.15t]) %cyan(%-50c{50}) | %m%n"/>
 
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
