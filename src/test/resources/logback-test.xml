@@ -1,0 +1,18 @@
+
+<configuration>
+  <property
+    name="pattern"
+    value="%gray(%d{HH:mm:ss.SSS}) %highlight(%-5p) %magenta([%-15.15t]) %cyan(%-50c{50}) | %m%n"/>
+
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <Pattern>${pattern}</Pattern>
+    </encoder>
+  </appender>
+
+  <root level="warn">
+    <appender-ref ref="console" />
+  </root>
+
+  <logger name="com.github.jaguililla.appointments" level="trace" />
+</configuration>
