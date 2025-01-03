@@ -1,6 +1,7 @@
 ///usr/bin/env java --enable-preview --source 21 -cp "*" "$0" "$@" ; exit $?
 
 import static java.util.Map.entry;
+import static java.util.stream.Collectors.joining;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,33 +9,53 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
+import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 Scanner scanner = new Scanner(System.in);
 FileSystem fs = FileSystems.getDefault();
 
 void main() {
+    separator("--- DELETE COMPONENTS ---");
+
     var deletions =
         Stream.of(
-            entry(".github", prompt("Keep GitHub workflows and templates (Yn): ", "y")),
-            entry(".gitlab*", prompt("Keep GitLab workflows and templates (Yn): ", "y")),
-            entry("CODE_OF_CONDUCT.md", prompt("Keep 'CODE_OF_CONDUCT.md' file (Yn): ", "y")),
-            entry("CONTRIBUTING.md", prompt("Keep 'CONTRIBUTING.md' file (Yn): ", "y")),
-            entry("LICENSE.md", prompt("Keep 'LICENSE.md' file (Yn): ", "y")),
-//            entry(".git", prompt("Keep Git history (Yn): ", "y")),
-            entry("set_up.java", prompt("Keep this set up file 'set_up.java' file (Yn): ", "y"))
+            entry(".github", prompt("Delete GitHub workflows and templates (yN): ", "n")),
+            entry(".gitlab*", prompt("Delete GitLab workflows and templates (yN): ", "n")),
+            entry("CODE_OF_CONDUCT.md", prompt("Delete 'CODE_OF_CONDUCT.md' file (yN): ", "n")),
+            entry("CONTRIBUTING.md", prompt("Delete 'CONTRIBUTING.md' file (yN): ", "n")),
+            entry("LICENSE.md", prompt("Delete 'LICENSE.md' file (yN): ", "n")),
+            entry(".git", prompt("Delete Git history (yN): ", "n")),
+            entry("set_up.java", prompt("Delete this set up file 'set_up.java' file (yN): ", "n"))
         )
-        .filter(it -> it.getValue().equalsIgnoreCase("n"))
+        .filter(it -> it.getValue().equalsIgnoreCase("y"))
         .toList();
 
-    // TODO Rename artifacts, groups or base package
-    // TODO Show summary before applying changes
+    // TODO Rename organization, repository, artifact, group and base package (from most
+    //  specific to less specific)
+    //  To find out places to change, search for 'jaguililla' in the project
+
+    separator("--- CONFIRM ---");
+
+    var deletionSummary = deletions.stream().map(Entry::getKey).collect(joining(", "));
+    var confirm = prompt(
+        """
+        Are you sure you want to:
+        * Delete the following files/directories: %s
+        * Rename %s to %s
+        """.formatted(deletionSummary, "a", "b"),
+        "n"
+    );
+
+    if (confirm.equalsIgnoreCase("n"))
+        System.exit(0);
 
     deletions.forEach(it -> delete(it.getKey()));
+}
+
+void separator(String message) {
+    System.out.printf("\n%s\n\n", message);
 }
 
 String prompt(String message, String defaultValue) {
@@ -44,7 +65,7 @@ String prompt(String message, String defaultValue) {
 }
 
 void delete(String glob) {
-    var matcher = fs.getPathMatcher("glob:./" + glob);
+    var matcher = fs.getPathMatcher("glob:./%s".formatted(glob));
     var cwd = new File(".");
     Optional
         .ofNullable(cwd.listFiles(it -> matcher.matches(it.toPath())))
@@ -58,7 +79,7 @@ void delete(String glob) {
                     .forEach(System.out::println); // (File::delete);
             }
             catch (IOException _) {
-                System.out.println("Error deleting " + it);
+                System.out.printf("Error deleting %s%n", it);
             }
         });
 }
