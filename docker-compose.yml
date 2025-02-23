@@ -13,7 +13,7 @@ services:
       - data:/var/lib/postgresql/data
       - ./src/test/resources/db:/docker-entrypoint-initdb.d
     ports:
-      - "15432:5432"
+      - "127.0.0.1:15432:5432"
 
   kafka:
     image: docker.io/apache/kafka-native:3.8.0
@@ -33,7 +33,17 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
     ports:
-      - "9092:9092"
+      - "127.0.0.1:9092:9092"
+
+  openobserve:
+    image: docker.io/openobserve/openobserve:v0.14.0
+    environment:
+      ZO_ROOT_USER_EMAIL: "root@example.com"
+      ZO_ROOT_USER_PASSWORD: "Complex-pass#123"
+    volumes:
+      - data:/data
+    ports:
+      - "5080:5080"
 
   appointments:
     profiles: [ local ]
@@ -49,7 +59,7 @@ services:
       JDBC_PASSWORD: root
       KAFKA_SERVER: kafka:19092
     ports:
-      - "18080:8080"
+      - "127.0.0.1:18080:8080"
 
 volumes:
   data:

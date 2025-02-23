@@ -83,8 +83,8 @@ Example application to create appointments (REST API). Appointments are stored i
 * `domain` holds business logic (services and/or use cases) and driven ports (interfaces).
 * `domain.model` keeps the structures relevant to the application's domain. The more logic added to
   an entity, the better (it could be easily accessed by many different services, or use cases).
-* `output.{notifiers,repositories}` driven adapters (implementations of driven ports).
-* `input.controllers` driver adapter (adapters without interface).
+* `notifiers` and `repositories` driven adapters (implementations of driven ports).
+* `controllers` driver adapter (adapters without interface).
 * Subpackages can be created for different adapter implementations (to isolate their code).
 * More information about each package rules can be found on their Javadoc documentation.
 
@@ -133,7 +133,7 @@ configuration options and their default values can be checked [here][gatlingDefa
 Those parameters can also be overwritten by system properties from the command line. I.e.:
 `-D gatling.core.encoding=utf-8`
 
-To run the Gatling test, execute `./mvnw gatling:test` at the shell.
+To run the Gatling test, execute `./mvnw -P gatling` at the shell.
 
 [Gatling settings]: https://docs.gatling.io/reference/script/core/configuration
 [gatlingDefaults]: https://github.com/gatling/gatling/blob/main/gatling-core/src/main/resources/gatling-defaults.conf

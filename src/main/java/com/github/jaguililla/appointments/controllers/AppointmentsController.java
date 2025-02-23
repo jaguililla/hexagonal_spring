@@ -1,4 +1,4 @@
-package com.github.jaguililla.appointments.input.controllers;
+package com.github.jaguililla.appointments.controllers;
 
 import static org.slf4j.LoggerFactory.getLogger;
 

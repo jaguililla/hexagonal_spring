@@ -4,7 +4,7 @@ import com.github.jaguililla.appointments.domain.AppointmentsNotifier;
 import com.github.jaguililla.appointments.domain.AppointmentsRepository;
 import com.github.jaguililla.appointments.domain.AppointmentsService;
 import com.github.jaguililla.appointments.domain.UsersRepository;
-import com.github.jaguililla.appointments.output.notifiers.KafkaTemplateAppointmentsNotifier;
+import com.github.jaguililla.appointments.notifiers.KafkaTemplateAppointmentsNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

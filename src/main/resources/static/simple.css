@@ -1,7 +1,6 @@
 
 /* Global variables. */
-:root,
-::backdrop {
+:root {
   --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir, "Nimbus Sans L", Roboto,
     "Noto Sans", "Segoe UI", Arial, Helvetica, "Helvetica Neue", sans-serif;
   --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
@@ -39,8 +38,7 @@
 
 /* Dark theme */
 @media (prefers-color-scheme: dark) {
-  :root,
-  ::backdrop {
+  :root {
     color-scheme: dark;
 
     --bg: #212121;
@@ -220,8 +218,7 @@ button,
 a.button, /* extra specificity to override a */
 input[type="submit"],
 input[type="reset"],
-input[type="button"],
-label[type="button"] {
+input[type="button"] {
   border: 1px solid var(--accent);
   background-color: var(--accent);
   color: var(--accent-text);
@@ -256,8 +253,7 @@ button:enabled:hover,
 .button:not([aria-disabled="true"]):hover,
 input[type="submit"]:enabled:hover,
 input[type="reset"]:enabled:hover,
-input[type="button"]:enabled:hover,
-label[type="button"]:hover {
+input[type="button"]:enabled:hover {
   background-color: var(--accent-hover);
   border-color: var(--accent-hover);
   cursor: pointer;
@@ -707,6 +703,7 @@ progress:indeterminate::-moz-progress-bar {
 }
 
 dialog {
+  background-color: var(--bg);
   max-width: 40rem;
   margin: auto;
 }
@@ -746,4 +743,50 @@ sub {
   border-radius: var(--standard-border-radius);
   padding: 1.5rem;
   margin: 2rem 0;
+}
+
+/* Print */
+@media print {
+  @page {
+    margin: 1cm;
+  }
+  body {
+    display: block;
+  }
+  body > header {
+    background-color: unset;
+  }
+  body > header nav,
+  body > footer {
+    display: none;
+  }
+  article {
+    border: none;
+    padding: 0;
+  }
+  a[href^="http"]::after {
+    content: " <" attr(href) ">";
+  }
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+  a {
+    text-decoration: none;
+  }
+  p {
+    widows: 3;
+    orphans: 3;
+  }
+  hr {
+    border-top: 1px solid var(--border);
+  }
+  mark {
+    border: 1px solid var(--border);
+  }
+  pre, table, figure, img, svg {
+    break-inside: avoid;
+  }
+  pre code {
+    white-space: pre-wrap;
+  }
 }

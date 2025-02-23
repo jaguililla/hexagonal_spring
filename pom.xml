@@ -16,7 +16,7 @@
   </parent>
 
   <artifactId>appointments</artifactId>
-  <version>0.3.8</version>
+  <version>0.3.9</version>
 
   <name>Appointments</name>
   <description>Application to create appointments (REST API)</description>
@@ -44,6 +44,17 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-otlp</artifactId>
+      <scope>runtime</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.protobuf</groupId>
+          <artifactId>protobuf-java</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.flywaydb</groupId>
