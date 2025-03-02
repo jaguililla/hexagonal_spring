@@ -35,22 +35,22 @@ services:
     ports:
       - "127.0.0.1:9092:9092"
 
-  openobserve:
-    image: docker.io/openobserve/openobserve:v0.14.0
-    environment:
-      ZO_ROOT_USER_EMAIL: "root@example.com"
-      ZO_ROOT_USER_PASSWORD: "Complex-pass#123"
-    volumes:
-      - data:/data
-    ports:
-      - "5080:5080"
+#  openobserve:
+#    image: docker.io/openobserve/openobserve:v0.14.0
+#    environment:
+#      ZO_ROOT_USER_EMAIL: "root@example.com"
+#      ZO_ROOT_USER_PASSWORD: "Complex-pass#123"
+#    volumes:
+#      - data:/data
+#    ports:
+#      - "5080:5080"
 
   appointments:
     profiles: [ local ]
     depends_on:
       - postgres
       - kafka
-    image: docker.io/com.github.jaguililla/appointments
+    image: com.github.jaguililla/appointments
     environment:
       GLOBAL_LOG_LEVEL: warn
       APPLICATION_LOG_LEVEL: info

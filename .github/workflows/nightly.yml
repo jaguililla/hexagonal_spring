@@ -38,7 +38,7 @@ jobs:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk env install
 
-          ./mvnw -P gatling
+          ./mvnw -P buildpack -P gatling
       - name: Build Client
         run: |
           export CLIENT_PATH='target/generated-sources/openapi'
