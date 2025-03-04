@@ -2,7 +2,8 @@
 name: Nightly Build
 on:
   schedule:
-    - cron: "59 23 * * *"
+    - cron: "59 23 1 1 *"
+#    - cron: "59 23 * * *"
 
 permissions: read-all
 
