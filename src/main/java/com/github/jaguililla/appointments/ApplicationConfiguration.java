@@ -25,9 +25,13 @@ class ApplicationConfiguration {
     private String deleteMessage;
 
     @Bean
-    AppointmentsNotifier appointmentsNotifier(final KafkaTemplate<String, String> kafkaTemplate) {
+    AppointmentsNotifier appointmentsNotifier(
+        final KafkaTemplate<String, String> kafkaTemplate,
+        final ConsumerFactory<String, String> consumerFactory
+    ) {
         final var type = KafkaTemplateAppointmentsNotifier.class.getSimpleName();
         LOGGER.info("Creating Appointments Notifier: {}", type);
+        kafkaTemplate.setConsumerFactory(consumerFactory);
         return new KafkaTemplateAppointmentsNotifier(
             kafkaTemplate, notifierTopic, createMessage, deleteMessage
         );
