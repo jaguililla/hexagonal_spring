@@ -4,11 +4,13 @@ name: appointments
 services:
 
   postgres:
-    image: docker.io/postgres:16-alpine
+    image: docker.io/postgres:17-alpine
+    platform: linux/amd64
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: local
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - data:/var/lib/postgresql/data
       - ./src/test/resources/db:/docker-entrypoint-initdb.d
@@ -17,6 +19,7 @@ services:
 
   kafka:
     image: docker.io/apache/kafka-native:3.8.0
+    platform: linux/amd64
     environment:
       CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
       KAFKA_NODE_ID: 1
@@ -35,22 +38,14 @@ services:
     ports:
       - "127.0.0.1:9092:9092"
 
-#  openobserve:
-#    image: docker.io/openobserve/openobserve:v0.14.0
-#    environment:
-#      ZO_ROOT_USER_EMAIL: "root@example.com"
-#      ZO_ROOT_USER_PASSWORD: "Complex-pass#123"
-#    volumes:
-#      - data:/data
-#    ports:
-#      - "5080:5080"
-
   appointments:
-    profiles: [ local ]
     depends_on:
       - postgres
       - kafka
     image: docker.io/com.github.jaguililla/appointments
+    platform: linux/amd64
+    build:
+      context: .
     environment:
       GLOBAL_LOG_LEVEL: warn
       APPLICATION_LOG_LEVEL: info
@@ -60,6 +55,14 @@ services:
       KAFKA_SERVER: kafka:19092
     ports:
       - "127.0.0.1:18080:8080"
+
+  openid.mock:
+    image: docker.io/bellsoft/liberica-runtime-container:jdk-21-slim-musl
+    platform: linux/amd64
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "127.0.0.1:12345:12345"
 
 volumes:
   data:

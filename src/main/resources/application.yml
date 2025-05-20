@@ -30,3 +30,6 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: tests
       auto-offset-reset: earliest
+
+  security.oauth2.resourceserver.jwk:
+    issuer-uri: ${OPENID:http://localhost:9876/realms/appointments}

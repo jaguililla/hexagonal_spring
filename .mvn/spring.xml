@@ -14,20 +14,28 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.4.3</version>
+    <version>3.4.5</version>
     <relativePath/>
   </parent>
 
   <groupId>com.github.jaguililla</groupId>
-  <artifactId>parent</artifactId>
+  <artifactId>spring</artifactId>
   <version>0.1.0</version>
   <packaging>pom</packaging>
 
-  <name>Parent</name>
-  <description>Common Maven settings (excluding DB and messaging)</description>
+  <name>Spring base POM</name>
+  <description>
+    Common Spring settings (excluding DB and messaging):
+
+    * Default configurations (i.e.: encoding)
+    * Set fix stable versions (Java, Maven, etc.)
+    * OpenAPI code generation (server and client)
+    * Profiles for Gatling load tests, mutation tests, Docker image generation, etc.
+  </description>
 
   <properties>
     <maven>3.9.9</maven>
+
     <openApiNullable>false</openApiNullable>
     <openapi.package>${project.groupId}.${project.artifactId}.http</openapi.package>
     <controllers.package>${openapi.package}.controllers</controllers.package>
@@ -41,8 +49,14 @@
     <springdoc.openapi.version>2.8.4</springdoc.openapi.version>
     <openapi.generator.version>7.11.0</openapi.generator.version>
 
-    <jacoco.version>0.8.12</jacoco.version>
-    <archunit.version>1.4.0</archunit.version>
+    <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+    <pitest-maven.version>1.17.3</pitest-maven.version>
+    <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+    <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+    <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
+
+    <jacoco.version>0.8.13</jacoco.version>
+    <archunit.version>1.4.1</archunit.version>
     <gatling.version>3.13.4</gatling.version>
     <gatling.maven.version>4.14.0</gatling.maven.version>
   </properties>
@@ -102,6 +116,12 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>kafka</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.auth0</groupId>
+      <artifactId>java-jwt</artifactId>
+      <version>4.4.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -238,8 +258,7 @@
         <dependency>
           <groupId>org.openapitools</groupId>
           <artifactId>jackson-databind-nullable</artifactId>
-          <!-- TODO -->
-          <version>0.2.6</version>
+          <version>${jackson-databind-nullable.version}</version>
         </dependency>
       </dependencies>
     </profile>
@@ -256,14 +275,12 @@
           <plugin>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-maven</artifactId>
-            <!-- TODO -->
-            <version>1.17.3</version>
+            <version>${pitest-maven.version}</version>
             <dependencies>
               <dependency>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-junit5-plugin</artifactId>
-                <!-- TODO -->
-                <version>1.2.1</version>
+                <version>${pitest-junit5-plugin.version}</version>
               </dependency>
             </dependencies>
             <configuration>
@@ -301,8 +318,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <!-- TODO -->
-            <version>3.6.0</version>
+            <version>${maven-checkstyle-plugin.version}</version>
             <configuration>
               <failsOnError>true</failsOnError>
             </configuration>
@@ -324,8 +340,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
-            <!-- TODO -->
-            <version>3.6.0</version>
+            <version>${maven-checkstyle-plugin.version}</version>
             <reportSets>
               <reportSet>
                 <reports>
@@ -348,8 +363,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <!-- TODO -->
-            <version>3.5.0</version>
+            <version>${exec-maven-plugin.version}</version>
             <executions>
               <execution>
                 <id>docker-up</id>

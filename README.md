@@ -137,3 +137,8 @@ To run the Gatling test, execute `./mvnw -P gatling` at the shell.
 
 [Gatling settings]: https://docs.gatling.io/reference/script/core/configuration
 [gatlingDefaults]: https://github.com/gatling/gatling/blob/main/gatling-core/src/main/resources/gatling-defaults.conf
+
+## Release
+* Merges to `main` create and publish a release
+* A release is a tag, a Maven package for the application, and another for the client
+* Publishing is uploading the release to GitHub packages

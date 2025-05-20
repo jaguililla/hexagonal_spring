@@ -8,6 +8,8 @@ import com.github.jaguililla.appointments.http.controllers.messages.AppointmentR
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentResponse;
 import java.time.Duration;
 import java.util.List;
+
+import com.github.jaguililla.appointments.it.OpenIdMock;
 import org.apache.kafka.common.TopicPartition;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,6 +36,8 @@ import java.util.UUID;
 @TestMethodOrder(OrderAnnotation.class)
 class ApplicationIT {
 
+    static final OpenIdMock OPENID_MOCK = new OpenIdMock();
+
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
     static KafkaContainer kafka = new KafkaContainer("apache/kafka:3.8.0");
 
@@ -49,11 +53,13 @@ class ApplicationIT {
     static void beforeAll() {
         postgres.start();
         kafka.start();
+        OPENID_MOCK.start();
     }
 
     @AfterAll
     static void afterAll() {
         postgres.stop();
+        OPENID_MOCK.stop();
     }
 
     @DynamicPropertySource
