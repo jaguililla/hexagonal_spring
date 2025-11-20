@@ -27,8 +27,8 @@ Example application to create appointments (REST API). Appointments are stored i
 [Clean]: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
 
 ## 🧰 Stack
-* Java 21
-* Spring 3.3 (configurable server, 'undertow' by default)
+* Java 25
+* Spring 4 (configurable server, 'jetty' by default)
   * Actuator (healthcheck, etc.)
 * Flyway (chosen over Liquibase for its simplicity)
 * Postgres
@@ -51,7 +51,7 @@ Example application to create appointments (REST API). Appointments are stored i
 
 ## 📑 Requirements
 * Docker Compose
-* JDK 21+
+* JDK 25+
 * SDKMAN (optional, recommended)
 
 ## 🤔 Design Decisions
@@ -142,3 +142,66 @@ To run the Gatling test, execute `./mvnw -P gatling` at the shell.
 * Merges to `main` create and publish a release
 * A release is a tag, a Maven package for the application, and another for the client
 * Publishing is uploading the release to GitHub packages
+
+# Security
+REST API calls are secured by scopes provided in the authentication token.
+
+These are the available scopes:
+* Write
+* Read
+* Admin
+
+The token should contain the principal.
+
+Test key store password: appointments
+
+# Security
+* OpenID is used as the authentication flow
+* Security logic is implemented at package `com.github.jaguililla.appointments.controllers`
+* Actuator and Swagger paths are not protected
+* The authenticator logic steps are:
+  * On each request, the OpenID configuration (Keycloak realm) is loaded from the JWT issuer
+  * Token scope is mapped to Spring Boot security model
+  * `@Secure` annotation is used to enforce a scope on an endpoint
+
+## Configuration
+* For testing in a local environment the `http-server.dockerfile` container must be deployed
+
+## Test Resources
+* A test key pair was generated for tests `src/test/resources/jwt/sign.{key,pub}.pem`
+* JWKS configuration (`certs.json`) generated from `sign.pub.pem`
+* Testing tokens generated with method:
+  `com.github.jaguililla.appointments.it.OpenIdMock.main`
+
+## Testing
+* Run project's Docker Compose as described in the [README.md] file
+* Start the application from the IDE
+* Sample http requests for exploratory testing are available at
+  `src/test/resources/http/requests.sh` files
+* On tests requests: OpenID Mock binding, token issuer and allowed issuers setting must match
+
+[README.md]: ../README.md
+
+# Domain Model
+```mermaid
+---
+title: Domain Model
+---
+classDiagram
+  direction LR
+
+  class Appointment {
+    id: int
+    start: LocalDateTime
+    end: LocalDateTime
+    users: List<User>
+  }
+
+  class User {
+    id: int
+    name: string
+  }
+```
+
+# Key
+* appointments.p12 password: appointments

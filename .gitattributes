@@ -12,3 +12,4 @@
 *.jpeg binary
 *.jar binary
 *.p12 binary
+*.ttf binary

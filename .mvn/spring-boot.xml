@@ -14,13 +14,13 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.5.3</version>
+    <version>4.0.0</version>
     <relativePath/>
   </parent>
 
   <groupId>com.github.jaguililla</groupId>
-  <artifactId>spring</artifactId>
-  <version>0.1.0</version>
+  <artifactId>spring-boot</artifactId>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
 
   <name>Spring base POM</name>
@@ -34,7 +34,21 @@
   </description>
 
   <properties>
-    <maven>3.9.10</maven>
+    <maven-antrun-plugin.version>3.2.0</maven-antrun-plugin.version>
+    <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+    <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
+    <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+    <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
+    <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+    <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
+    <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+    <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+    <maven-jlink-plugin.version>3.2.0</maven-jlink-plugin.version>
+    <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+    <doxia-module-markdown.version>2.0.0</doxia-module-markdown.version>
 
     <openApiNullable>false</openApiNullable>
     <openapi.package>${project.groupId}.${project.artifactId}.http</openapi.package>
@@ -42,35 +56,29 @@
     <client.package>${openapi.package}.client</client.package>
     <image.name>${project.groupId}/${project.artifactId}</image.name>
     <image.registry>docker.io</image.registry>
-    <spring.server>undertow</spring.server> <!-- undertow | jetty | tomcat -->
+    <spring.server>jetty</spring.server> <!-- jetty | tomcat -->
     <openapi.integration>ui</openapi.integration> <!-- ui | api -->
 
-    <java.version>21</java.version>
-    <springdoc.openapi.version>2.8.4</springdoc.openapi.version>
-    <openapi.generator.version>7.11.0</openapi.generator.version>
+    <java.version>25</java.version>
+    <springdoc.openapi.version>2.8.6</springdoc.openapi.version> <!-- TODO 2.8.14 version fails -->
+    <openapi.generator.version>7.16.0</openapi.generator.version>
 
     <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-    <pitest-maven.version>1.17.3</pitest-maven.version>
-    <pitest-junit5-plugin.version>1.2.1</pitest-junit5-plugin.version>
+    <pitest-maven.version>1.20.0</pitest-maven.version>
+    <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
     <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-    <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
+    <exec-maven-plugin.version>3.6.1</exec-maven-plugin.version>
 
-    <jacoco.version>0.8.13</jacoco.version>
+    <jacoco.version>0.8.14</jacoco.version>
     <archunit.version>1.4.1</archunit.version>
-    <gatling.version>3.13.4</gatling.version>
-    <gatling.maven.version>4.14.0</gatling.maven.version>
+    <gatling.version>3.14.3</gatling.version>
+    <gatling.maven.version>4.19.0</gatling.maven.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-tomcat</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -110,12 +118,12 @@
     </dependency>
     <dependency>
       <groupId>org.testcontainers</groupId>
-      <artifactId>postgresql</artifactId>
+      <artifactId>testcontainers-postgresql</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.testcontainers</groupId>
-      <artifactId>kafka</artifactId>
+      <artifactId>testcontainers-kafka</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -130,6 +138,11 @@
       <version>${gatling.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-restclient</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -137,11 +150,8 @@
 
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <compilerArgs>--enable-preview</compilerArgs>
-        </configuration>
+        <version>${maven-compiler-plugin.version}</version>
       </plugin>
 
       <plugin>
@@ -150,8 +160,13 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven-failsafe-plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
       </plugin>
 
       <plugin>
@@ -316,7 +331,6 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
             <version>${maven-checkstyle-plugin.version}</version>
             <configuration>
@@ -338,7 +352,6 @@
       <reporting>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-checkstyle-plugin</artifactId>
             <version>${maven-checkstyle-plugin.version}</version>
             <reportSets>

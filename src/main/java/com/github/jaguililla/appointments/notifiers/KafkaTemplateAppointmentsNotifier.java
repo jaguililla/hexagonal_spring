@@ -51,6 +51,7 @@ public class KafkaTemplateAppointmentsNotifier implements AppointmentsNotifier {
         catch (InterruptedException | ExecutionException e) {
             var id = appointment.id();
             var errorMessage = "Error sending notification for appointment: %s".formatted(id);
+            Thread.currentThread().interrupt();
             throw new IllegalStateException(errorMessage, e);
         }
     }

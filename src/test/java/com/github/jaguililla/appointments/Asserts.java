@@ -12,7 +12,7 @@ public interface Asserts {
     }
 
     static void assertNull(String field, Executable executable) {
-        assertThrows(NullPointerException.class, "%s can not be null".formatted(field), executable);
+        assertThrows(NullPointerException.class, "%s cannot be null".formatted(field), executable);
     }
 
     static <T extends Throwable> void assertThrows(

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jaguililla.appointments.it.JwtTokenManager;
 import org.slf4j.Logger;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
@@ -89,8 +89,7 @@ public final class TestTemplate {
             return mapper.readValue(body, type);
         }
         catch (final JsonProcessingException e) {
-            final var message = "Error mapping response body to '%s':\n%s"
-                .formatted(type.getName(), body);
+            final var message = "Error mapping response body to '" + type.getName() + "':\n" + body;
             throw new RuntimeException(message, e);
         }
     }
@@ -103,7 +102,7 @@ public final class TestTemplate {
         final var headers = new HttpHeaders();
         final var uri = URI.create(rootUri + path);
         final var request = new RequestEntity<>(body, headers, method, uri);
-        final var token = tokenManager.createToken("http://localhost:9876/realms/appointments");
+        final var token = tokenManager.createToken("scope", "http://localhost:12345/realms/appointments");
 
         headers.setBearerAuth(token);
         return request;

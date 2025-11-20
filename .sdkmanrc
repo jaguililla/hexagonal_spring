@@ -1,3 +1,6 @@
 # Enable auto-env through the sdkman_auto_env config
 # Add key=value pairs of SDKs to use below
-java=21.0.7-librca
+
+mvnd=2.0.0-rc-3
+
+java=25.0.1.fx-librca

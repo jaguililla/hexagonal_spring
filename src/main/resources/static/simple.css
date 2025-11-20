@@ -1,25 +1,12 @@
-
 /* Global variables. */
 :root {
-  --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir, "Nimbus Sans L", Roboto,
-    "Noto Sans", "Segoe UI", Arial, Helvetica, "Helvetica Neue", sans-serif;
+  /* Set sans-serif & mono fonts */
+  --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
+    "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica,
+    "Helvetica Neue", sans-serif;
   --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
-
-  --small-font-size: 0.9rem;
-
-  --body-font-size: 1.15rem;
-  --nav-font-size: 1rem;
-  --aside-font-size: 1rem;
-  --footer-font-size: var(--small-font-size);
-  --figcaption-font-size: var(--small-font-size);
-  --cite-font-size: var(--small-font-size);
-
-  --nav-line-height: 2;
-  --body-line-height: 1.5;
-  --h123-line-height: 1.1;
-  --nav-mobile-line-height: 1;
-
   --standard-border-radius: 5px;
+  --border-width: 1px;
 
   /* Default (light) theme */
   --bg: #fff;
@@ -40,7 +27,6 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-
     --bg: #212121;
     --accent-bg: #2b2b2b;
     --text: #dcdcdc;
@@ -52,7 +38,6 @@
     --preformatted: #ccc;
     --disabled: #111;
   }
-
   /* Add a bit of transparency so light media isn't so glaring in dark mode */
   img,
   video {
@@ -61,9 +46,7 @@
 }
 
 /* Reset box-sizing */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -79,7 +62,7 @@ progress {
 
 html {
   /* Set the font globally */
-  font-family: var(--sans-font), sans-serif;
+  font-family: var(--sans-font);
   scroll-behavior: smooth;
 }
 
@@ -87,13 +70,12 @@ html {
 body {
   color: var(--text);
   background-color: var(--bg);
-  font-size: var(--body-font-size);
-  line-height: var(--body-line-height);
+  font-size: 1.15rem;
+  line-height: 1.5;
   display: grid;
   grid-template-columns: 1fr min(45rem, 90%) 1fr;
   margin: 0;
 }
-
 body > * {
   grid-column: 2;
 }
@@ -101,7 +83,7 @@ body > * {
 /* Make the header bg full width, but the content inline with body */
 body > header {
   background-color: var(--accent-bg);
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--border-width) solid var(--border);
   text-align: center;
   padding: 0 0.5rem 2rem 0.5rem;
   grid-column: 1 / -1;
@@ -121,7 +103,7 @@ body > header p {
   margin: 1rem auto;
 }
 
-/* Add a little padding to ensure spacing is correct between content and header > nav */
+/* Add a little padding to ensure spacing is correct between content and header nav */
 main {
   padding-top: 1.5rem;
 }
@@ -130,9 +112,9 @@ body > footer {
   margin-top: 4rem;
   padding: 2rem 1rem 1.5rem 1rem;
   color: var(--text-light);
-  font-size: var(--footer-font-size);
+  font-size: 0.9rem;
   text-align: center;
-  border-top: 1px solid var(--border);
+  border-top: var(--border-width) solid var(--border);
 }
 
 /* Format headers */
@@ -167,13 +149,7 @@ p {
 }
 
 /* Prevent long strings from overflowing container */
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
@@ -181,7 +157,7 @@ h6 {
 h1,
 h2,
 h3 {
-  line-height: var(--h123-line-height);
+  line-height: 1.1;
 }
 
 /* Reduce header size on mobile */
@@ -219,7 +195,7 @@ a.button, /* extra specificity to override a */
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
-  border: 1px solid var(--accent);
+  border: var(--border-width) solid var(--accent);
   background-color: var(--accent);
   color: var(--accent-text);
   padding: 0.5rem 0.9rem;
@@ -271,15 +247,15 @@ input:enabled:focus-visible:where(
 }
 
 /* Format navigation */
-header > nav {
-  font-size: var(--nav-font-size);
-  line-height: var(--nav-line-height);
+header nav {
+  font-size: 1rem;
+  line-height: 2;
   padding: 1rem 0 0 0;
 }
 
 /* Use flexbox to allow items to wrap, as needed */
-header > nav ul,
-header > nav ol {
+header nav ul,
+header nav ol {
   align-content: space-around;
   align-items: center;
   display: flex;
@@ -292,15 +268,15 @@ header > nav ol {
 }
 
 /* List items are inline elements, make them behave more like blocks */
-header > nav ul li,
-header > nav ol li {
+header nav ul li,
+header nav ol li {
   display: inline-block;
 }
 
-header > nav a,
-header > nav a:visited {
+header nav a,
+header nav a:visited {
   margin: 0 0.5rem 1rem 0.5rem;
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--standard-border-radius);
   color: var(--text);
   display: inline-block;
@@ -308,10 +284,11 @@ header > nav a:visited {
   text-decoration: none;
 }
 
-header > nav a:hover,
-header > nav a.current,
-header > nav a[aria-current="page"],
-header > nav a[aria-current="true"] {
+header nav a:hover,
+header nav a.current,
+header nav a[aria-current="page"],
+header nav a[aria-current="true"] {
+  background: var(--bg);
   border-color: var(--accent);
   color: var(--accent);
   cursor: pointer;
@@ -319,33 +296,33 @@ header > nav a[aria-current="true"] {
 
 /* Reduce nav side on mobile */
 @media only screen and (max-width: 720px) {
-  header > nav a {
+  header nav a {
     border: none;
     padding: 0;
     text-decoration: underline;
-    line-height: var(--nav-mobile-line-height);
+    line-height: 1;
+  }
+
+  header nav a.current {
+    background: none;
   }
 }
 
 /* Consolidate box styling */
-aside,
-details,
-pre,
-progress {
+aside, details, pre, progress {
   background-color: var(--accent-bg);
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--standard-border-radius);
   margin-bottom: 1rem;
 }
 
 aside {
-  font-size: var(--aside-font-size);
+  font-size: 1rem;
   width: 30%;
   padding: 0 15px;
   margin-inline-start: 15px;
   float: right;
 }
-
 *[dir="rtl"] aside {
   float: left;
 }
@@ -359,10 +336,8 @@ aside {
   }
 }
 
-article,
-fieldset,
-dialog {
-  border: 1px solid var(--border);
+article, fieldset, dialog {
+  border: var(--border-width) solid var(--border);
   padding: 1rem;
   border-radius: var(--standard-border-radius);
   margin-bottom: 1rem;
@@ -376,8 +351,8 @@ section h3:first-child {
 }
 
 section {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  border-top: var(--border-width) solid var(--border);
+  border-bottom: var(--border-width) solid var(--border);
   padding: 2rem 1rem;
   margin: 3rem 0;
 }
@@ -435,7 +410,7 @@ figure > table {
 
 td,
 th {
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
   text-align: start;
   padding: 0.5rem;
 }
@@ -463,26 +438,23 @@ button,
 .button {
   font-size: inherit;
   font-family: inherit;
-  padding: 0.5rem;
+  padding: 0.5em;
   margin-bottom: 0.5rem;
   border-radius: var(--standard-border-radius);
   box-shadow: none;
   max-width: 100%;
   display: inline-block;
 }
-
 textarea,
 select,
 input {
   color: var(--text);
   background-color: var(--bg);
-  border: 1px solid var(--border);
+  border: var(--border-width) solid var(--border);
 }
-
 label {
   display: block;
 }
-
 textarea:not([cols]) {
   width: 100%;
 }
@@ -490,13 +462,12 @@ textarea:not([cols]) {
 /* Add arrow to drop-down */
 select:not([multiple]) {
   background-image: linear-gradient(45deg, transparent 49%, var(--text) 51%),
-  linear-gradient(135deg, var(--text) 51%, transparent 49%);
+    linear-gradient(135deg, var(--text) 51%, transparent 49%);
   background-position: calc(100% - 15px), calc(100% - 10px);
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
   padding-inline-end: 25px;
 }
-
 *[dir="rtl"] select:not([multiple]) {
   background-position: 10px, 15px;
 }
@@ -526,30 +497,29 @@ input[type="radio"]:checked {
 input[type="checkbox"]:checked::after {
   /* Creates a rectangle with colored right and bottom borders which is rotated to look like a check mark */
   content: " ";
-  width: 0.18em;
-  height: 0.32em;
+  width: 0.2em;
+  height: 0.4em;
   border-radius: 0;
   position: absolute;
-  top: 0.05em;
-  left: 0.17em;
+  top: 0.04em;
+  left: 0.18em;
   background-color: transparent;
   border-right: solid var(--bg) 0.08em;
   border-bottom: solid var(--bg) 0.08em;
   font-size: 1.8em;
   transform: rotate(45deg);
 }
-
 input[type="radio"]:checked::after {
   /* creates a colored circle for the checked radio button  */
   content: " ";
-  width: 0.25em;
-  height: 0.25em;
+  width: 0.3em;
+  height: 0.3em;
   border-radius: 100%;
   position: absolute;
   top: 0.125em;
   background-color: var(--bg);
   left: 0.125em;
-  font-size: 32px;
+  font-size: 1.8em;
 }
 
 /* Makes input fields wider on smaller screens */
@@ -564,7 +534,7 @@ input[type="radio"]:checked::after {
 /* Set a height for color input */
 input[type="color"] {
   height: 2.5rem;
-  padding: 0.2rem;
+  padding:  0.2rem;
 }
 
 /* do not show border around file selector button */
@@ -575,7 +545,7 @@ input[type="file"] {
 /* Misc body elements */
 hr {
   border: none;
-  height: 1px;
+  height: var(--border-width);
   background: var(--border);
   margin: 1rem auto;
 }
@@ -611,8 +581,10 @@ figure > picture > img {
 }
 
 figcaption {
+  position: sticky;
+  left: 0;
   text-align: center;
-  font-size: var(--figcaption-font-size);
+  font-size: 0.9rem;
   color: var(--text-light);
   margin-block: 1rem;
 }
@@ -628,13 +600,13 @@ blockquote {
 }
 
 cite {
-  font-size: var(--cite-font-size);
+  font-size: 0.9rem;
   color: var(--text-light);
   font-style: normal;
 }
 
 dt {
-  color: var(--text-light);
+    color: var(--text-light);
 }
 
 /* Use mono font for code elements */
@@ -643,13 +615,13 @@ pre,
 pre span,
 kbd,
 samp {
-  font-family: var(--mono-font), monospace;
+  font-family: var(--mono-font);
   color: var(--code);
 }
 
 kbd {
   color: var(--preformatted);
-  border: 1px solid var(--preformatted);
+  border: var(--border-width) solid var(--preformatted);
   border-bottom: 3px solid var(--preformatted);
   border-radius: var(--standard-border-radius);
   padding: 0.1rem 0.4rem;
@@ -715,15 +687,13 @@ dialog::backdrop {
 
 @media only screen and (max-width: 720px) {
   dialog {
-    max-width: 100%;
-    margin: auto 1em;
+    max-width: calc(100vw - 2rem);
   }
 }
 
 /* Superscript & Subscript */
 /* Prevent scripts from affecting line-height. */
-sup,
-sub {
+sup, sub {
   vertical-align: baseline;
   position: relative;
 }
@@ -739,7 +709,7 @@ sub {
 /* Classes for notices */
 .notice {
   background: var(--accent-bg);
-  border: 2px solid var(--border);
+  border: var(--border-width) solid var(--border);
   border-radius: var(--standard-border-radius);
   padding: 1.5rem;
   margin: 2rem 0;
@@ -778,10 +748,10 @@ sub {
     orphans: 3;
   }
   hr {
-    border-top: 1px solid var(--border);
+    border-top: var(--border-width) solid var(--border);
   }
   mark {
-    border: 1px solid var(--border);
+    border: var(--border-width) solid var(--border);
   }
   pre, table, figure, img, svg {
     break-inside: avoid;

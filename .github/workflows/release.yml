@@ -34,8 +34,8 @@ jobs:
       - name: Java Setup
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: temurin
+          java-version: '25'
+          distribution: liberica
       - name: Publish and Tag Application
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

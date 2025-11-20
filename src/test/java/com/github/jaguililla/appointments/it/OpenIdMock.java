@@ -17,7 +17,7 @@ public class OpenIdMock {
     private static final String JSON = "application/json; charset=" + UTF_8.name();
 
     static final String CONTEXT = "/realms/appointments";
-    static final int PORT = 9876;
+    static final int PORT = 12345;
 
     private HttpServer httpServer;
 

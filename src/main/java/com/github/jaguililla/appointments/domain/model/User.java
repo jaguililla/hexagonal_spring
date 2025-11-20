@@ -10,7 +10,7 @@ public record User(
     String name
 ) {
     public User {
-        requireNonNull(id, "id can not be null");
+        requireNonNull(id, "id cannot be null");
         requireNonBlank(name, "name");
     }
 }
