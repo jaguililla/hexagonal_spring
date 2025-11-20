@@ -58,7 +58,6 @@ services:
       - "127.0.0.1:18080:8080"
 
   openid.mock:
-    image: docker.io/bellsoft/liberica-runtime-container:jdk-25-slim-musl
     platform: linux/amd64
     build:
       dockerfile: src/test/resources/http/http-server.dockerfile
