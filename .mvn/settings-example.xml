@@ -1,0 +1,72 @@
+
+<!--
+ ! To use it on this repository, rename it to 'settings.xml'
+ !-->
+<settings
+  xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation=
+    "http://maven.apache.org/SETTINGS/1.2.0 http://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+  <servers>
+    <server>
+      <id>central</id>
+      <username>user</username>
+      <password>pass</password>
+    </server>
+
+    <server>
+      <id>snapshots</id>
+      <username>user</username>
+      <password>pass</password>
+    </server>
+  </servers>
+
+  <profiles>
+
+    <!--
+     ! Picks internal repositories if 'mavenCentral' is not defined. For corporate integration
+     !-->
+    <profile>
+      <id>artifactory</id>
+
+      <activation>
+        <property>
+          <name>!mavenCentral</name>
+        </property>
+      </activation>
+
+      <repositories>
+        <repository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>central</id>
+          <name>api-maven-release-virtual</name>
+          <url>https://artifactory.com/artifactory/api-maven-release-virtual</url>
+        </repository>
+        <repository>
+          <id>snapshots</id>
+          <name>api-maven-snapshot-virtual</name>
+          <url>https://artifactory.com/artifactory/api-maven-snapshot-virtual</url>
+        </repository>
+      </repositories>
+
+      <pluginRepositories>
+        <pluginRepository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>central</id>
+          <name>plugins-release</name>
+          <url>https://artifactory.com/artifactory/plugins-release</url>
+        </pluginRepository>
+        <pluginRepository>
+          <id>snapshots</id>
+          <name>plugins-release</name>
+          <url>https://artifactory.com/artifactory/plugins-release</url>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+</settings>

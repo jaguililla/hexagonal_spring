@@ -2,7 +2,8 @@
 name: Nightly Build
 on:
   schedule:
-    - cron: "59 23 1 1 *"
+    - cron: "59 23 1 1 1"
+    # TODO Now running less than yearly. Restore to daily with commented line below
 #    - cron: "59 23 * * *"
 
 permissions: read-all
@@ -39,7 +40,7 @@ jobs:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk env install
 
-          ./mvnw -P buildpack -P gatling
+          ./mvnw -P gatling
       - name: Build Client
         run: |
           export CLIENT_PATH='target/generated-sources/openapi'

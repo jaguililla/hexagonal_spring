@@ -2,6 +2,9 @@ package com.github.jaguililla.appointments.it;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -20,8 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.undertow.util.Headers.REALM;
+import static com.github.jaguililla.appointments.it.OpenIdMock.PORT;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Arrays.stream;
 
 public class JwtTokenManager {
 
@@ -29,19 +33,23 @@ public class JwtTokenManager {
     private static final Base64.Decoder BASE64_DECODER = Base64.getMimeDecoder();
 
     private final Algorithm ALGORITHM;
+    private final ObjectMapper objectMapper;
+    private final ObjectWriter objectWriter;
 
     public JwtTokenManager() {
         try {
             RSAPrivateKey privateKey = readRsaPrivateKey("jwt/sign.key.pem");
             RSAPublicKey publicKey = readRsaPublicKey("jwt/sign.pub.pem");
             ALGORITHM = Algorithm.RSA256(publicKey, privateKey);
+            objectMapper = new ObjectMapper().findAndRegisterModules();
+            objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
         }
         catch (IOException | InvalidKeySpecException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String createToken(String issuer) {
+    public String createToken(String scope, String issuer) {
         var token = JWT
             .create()
             .withExpiresAt(Instant.now().plusSeconds(3600 * 24 * 365))
@@ -49,17 +57,61 @@ public class JwtTokenManager {
             .withJWTId(UUID.randomUUID().toString())
             .withIssuer(issuer)
             .withAudience("account")
-            .withSubject("subject")
+            .withSubject("17dafd6a-ecde-48e6-989b-81857ef1089e")
             .withClaim("typ", "Bearer")
             .withClaim("allowed-origins", List.of("/*"))
+            .withClaim("scope", scope)
             .sign(ALGORITHM);
 
-        LOGGER.info("ISSUER: {}\n{}", issuer, token);
+        LOGGER.info("SCOPE: {} ISSUER: {}\n{}", scope, issuer, token);
         return token;
     }
 
-    private String createToken(String server, int port) {
-        return createToken("%s:%d%s".formatted(server, port, REALM));
+    private String createToken(String scope, String server, int port) {
+        return createToken(scope, "%s:%d".formatted(server, port));
+    }
+
+    String createToken(String scope) {
+        return createToken(scope, "http://localhost", PORT);
+    }
+
+    List<Map<String, Object>> decodeToken(String token) {
+        var type = new TypeReference<Map<String, Object>>() {
+        };
+
+        return stream(token.split("\\."))
+            .toList()
+            .subList(0, 2)
+            .stream()
+            .map(it -> {
+                try {
+                    var text = new String(JwtTokenManager.BASE64_DECODER.decode(it));
+                    return objectMapper.readValue(text, type);
+                }
+                catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            })
+            .toList();
+    }
+
+    List<Map<String, Object>> decodeResource(String resource) throws IOException {
+        var token = new ClassPathResource(resource).getContentAsString(UTF_8);
+        return decodeToken(token);
+    }
+
+    void printToken(List<Map<String, Object>> token) {
+        token
+            .stream()
+            .map(it -> {
+                try {
+                    return objectWriter.writeValueAsString(it);
+                }
+                catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            })
+            .forEach(System.out::println);
     }
 
     private static RSAPrivateKey readRsaPrivateKey(String resource)
@@ -88,14 +140,14 @@ public class JwtTokenManager {
     }
 
     /**
-     * Create test tokens.
+     * Create test tokens for development environments.
      */
     public static void main(String... args) {
         var jwtTokenManager = new JwtTokenManager();
         Map.of(
-            "http://openid.mock", 9876,
-            "http://localhost", 9876
+            "http://openid.mock", 12345,
+            "http://localhost", 12345
         )
-        .forEach((endpoint, port) -> jwtTokenManager.createToken(endpoint, port));
+        .forEach((endpoint, port) -> jwtTokenManager.createToken("TODO", endpoint, port));
     }
 }

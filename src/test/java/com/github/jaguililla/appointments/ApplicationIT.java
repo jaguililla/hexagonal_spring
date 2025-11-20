@@ -23,7 +23,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.kafka.KafkaContainer;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -38,8 +38,8 @@ class ApplicationIT {
 
     static final OpenIdMock OPENID_MOCK = new OpenIdMock();
 
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
-    static KafkaContainer kafka = new KafkaContainer("apache/kafka:3.8.0");
+    static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:18-alpine");
+    static KafkaContainer kafka = new KafkaContainer("apache/kafka-native:4.1.0");
 
     private final TestTemplate client;
     @Autowired

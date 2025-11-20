@@ -15,10 +15,10 @@ public record Appointment(
     List<User> users
 ) {
     public Appointment {
-        requireNonNull(id, "id can not be null");
-        requireNonNull(start, "start can not be null");
-        requireNonNull(end, "end can not be null");
-        requireNonNull(users, "users can not be null");
+        requireNonNull(id, "id cannot be null");
+        requireNonNull(start, "start cannot be null");
+        requireNonNull(end, "end cannot be null");
+        requireNonNull(users, "users cannot be null");
         requireAfter(end, start, "end");
     }
 

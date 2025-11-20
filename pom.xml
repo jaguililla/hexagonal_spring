@@ -10,13 +10,13 @@
 
   <parent>
     <groupId>com.github.jaguililla</groupId>
-    <artifactId>spring</artifactId>
-    <version>0.1.0</version>
-    <relativePath>.mvn/spring.xml</relativePath>
+    <artifactId>spring-boot</artifactId>
+    <version>1.0.0</version>
+    <relativePath>.mvn/spring-boot.xml</relativePath>
   </parent>
 
   <artifactId>appointments</artifactId>
-  <version>0.3.11</version>
+  <version>0.4.0</version>
 
   <name>Appointments</name>
   <description>Application to create appointments (REST API)</description>
@@ -26,11 +26,12 @@
     <openapi.package>${project.groupId}.${project.artifactId}.http</openapi.package>
     <controllers.package>${openapi.package}.controllers</controllers.package>
     <client.package>${openapi.package}.client</client.package>
-    <spring.server>undertow</spring.server>
+    <spring.server>jetty</spring.server>
     <openapi.integration>ui</openapi.integration>
     <gatling.simulationClass>
       com.github.jaguililla.appointments.GatlingSimulation
     </gatling.simulationClass>
+    <start-class>com.github.jaguililla.appointments.Application</start-class>
   </properties>
 
   <distributionManagement>
@@ -50,19 +51,8 @@
       <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.micrometer</groupId>
-      <artifactId>micrometer-registry-otlp</artifactId>
-      <scope>runtime</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.protobuf</groupId>
-          <artifactId>protobuf-java</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>io.micrometer</groupId>
-      <artifactId>micrometer-tracing-bridge-brave</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-flyway</artifactId>
     </dependency>
     <dependency>
       <groupId>org.flywaydb</groupId>
@@ -73,8 +63,8 @@
       <artifactId>postgresql</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.kafka</groupId>
-      <artifactId>spring-kafka</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-kafka</artifactId>
     </dependency>
   </dependencies>
 </project>
