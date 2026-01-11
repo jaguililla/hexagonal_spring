@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!--
  ! To use it on this repository, rename it to 'settings.xml'
@@ -11,14 +12,14 @@
   <servers>
     <server>
       <id>central</id>
-      <username>user</username>
-      <password>pass</password>
+      <username>${env.MVN_CENTRAL_USER}</username>
+      <password>${env.MVN_CENTRAL_PASS}</password>
     </server>
 
     <server>
       <id>snapshots</id>
-      <username>user</username>
-      <password>pass</password>
+      <username>${env.MVN_SNAPSHOTS_USER}</username>
+      <password>${env.MVN_SNAPSHOTS_PASS}</password>
     </server>
   </servers>
 
