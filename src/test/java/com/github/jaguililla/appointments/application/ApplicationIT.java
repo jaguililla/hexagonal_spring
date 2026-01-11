@@ -1,9 +1,10 @@
-package com.github.jaguililla.appointments;
+package com.github.jaguililla.appointments.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import com.github.jaguililla.appointments.TestTemplate;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentRequest;
 import com.github.jaguililla.appointments.http.controllers.messages.AppointmentResponse;
 import java.time.Duration;
@@ -39,7 +40,7 @@ class ApplicationIT {
     static final OpenIdMock OPENID_MOCK = new OpenIdMock();
 
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:18-alpine");
-    static KafkaContainer kafka = new KafkaContainer("apache/kafka-native:4.1.0");
+    static KafkaContainer kafka = new KafkaContainer("apache/kafka-native:4.1.1");
 
     private final TestTemplate client;
     @Autowired
@@ -73,7 +74,7 @@ class ApplicationIT {
     @Test
     @Order(1)
     void specification_requests_work_as_expected() {
-        client.get("/v3/api-docs");
+        client.get("/openapi/api.yml");
         assertTrue(client.getResponseBody().contains("openapi"));
         assertEquals(200, client.getResponseStatus().value());
     }

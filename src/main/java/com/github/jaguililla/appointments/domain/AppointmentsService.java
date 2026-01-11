@@ -40,9 +40,9 @@ public final class AppointmentsService {
         return fullAppointment;
     }
 
-    public User create(final User appointment) {
-        usersRepository.insert(appointment);
-        return appointment;
+    public User create(final User user) {
+        usersRepository.insert(user);
+        return user;
     }
 
     public boolean delete(final UUID id) {

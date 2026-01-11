@@ -7,4 +7,4 @@ COPY src/test/java/httpServer.java /httpServer.java
 HEALTHCHECK --interval=10s CMD \
   wget -O/dev/stdout --tries=1 http://localhost:12345 2>/dev/null | grep index || exit 1
 
-ENTRYPOINT [ "java", "/httpServer.java" ]
+ENTRYPOINT [ "java", "--enable-preview", "--source", "25", "/httpServer.java" ]

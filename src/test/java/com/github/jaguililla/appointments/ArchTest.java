@@ -8,21 +8,22 @@ import com.tngtech.archunit.core.importer.ImportOption.DoNotIncludeTests;
 import org.junit.jupiter.api.Test;
 
 public class ArchTest {
-    private static final String APPLICATION_PACKAGE = ArchTest.class.getPackageName();
-    private static final String DOMAIN_PACKAGE = APPLICATION_PACKAGE + ".domain";
+    private static final String BASE_PACKAGE = ArchTest.class.getPackageName();
+    private static final String APPLICATION_PACKAGE = BASE_PACKAGE + ".application";
+    private static final String DOMAIN_PACKAGE = BASE_PACKAGE + ".domain";
     private static final String DOMAIN_MODEL_PACKAGE = DOMAIN_PACKAGE + ".model";
-    private static final String STORES_PACKAGE = APPLICATION_PACKAGE + ".repositories..";
-    private static final String NOTIFIERS_PACKAGE = APPLICATION_PACKAGE + ".notifiers..";
-    private static final String CONTROLLERS_PACKAGE = APPLICATION_PACKAGE + ".controllers..";
+    private static final String STORES_PACKAGE = BASE_PACKAGE + ".repositories..";
+    private static final String NOTIFIERS_PACKAGE = BASE_PACKAGE + ".notifiers..";
+    private static final String CONTROLLERS_PACKAGE = BASE_PACKAGE + ".controllers..";
 
-    private static final String GENERATED_PACKAGES = APPLICATION_PACKAGE + ".http.controllers..";
+    private static final String GENERATED_PACKAGES = BASE_PACKAGE + ".http.controllers..";
 
     private static final String JAVA_PACKAGES = "java..";
     private static final String JAVAX_PACKAGES = "javax..";
 
     private static final JavaClasses classes = new ClassFileImporter()
         .withImportOption(new DoNotIncludeTests())
-        .importPackages(APPLICATION_PACKAGE);
+        .importPackages(BASE_PACKAGE);
 
     @Test
     void domain_can_only_access_domain() {

@@ -59,6 +59,8 @@ public class JwtTokenManager {
             .withAudience("account")
             .withSubject("17dafd6a-ecde-48e6-989b-81857ef1089e")
             .withClaim("typ", "Bearer")
+            .withClaim("azp", "dev")
+            .withClaim("acr", "1")
             .withClaim("allowed-origins", List.of("/*"))
             .withClaim("scope", scope)
             .sign(ALGORITHM);
