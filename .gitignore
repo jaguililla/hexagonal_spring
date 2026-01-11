@@ -43,6 +43,8 @@ hs_err_pid*
 # Other Tools
 kotlin-js-store/
 node_modules/
+.structurizr/
+.vertx/
 .vagrant/
 .env
 
