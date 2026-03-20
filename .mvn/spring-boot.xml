@@ -14,7 +14,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>4.0.0</version>
+    <version>4.0.4</version>
     <relativePath/>
   </parent>
 
@@ -195,7 +195,7 @@
         <version>${openapi.generator.version}</version>
 
         <configuration>
-          <inputSpec>${project.basedir}/src/main/resources/openapi/api.yml</inputSpec>
+          <inputSpec>${project.basedir}/src/main/resources/static/openapi/api.yml</inputSpec>
           <!-- Tests are generated using JUnit 4, they will fail -->
           <generateApiTests>false</generateApiTests>
           <generateModelTests>false</generateModelTests>
